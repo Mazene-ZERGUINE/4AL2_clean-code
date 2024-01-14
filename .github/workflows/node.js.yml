@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,8 +27,14 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          npm ci
+          npm ci --prefer-offline
+      - name: ESLint check
+        run: |
+          npm run lint
+      - name: Unit tests
+        run: |
+          npm run test
       - name: Build
         run: |
           cd backend
-          npm run build
+          npm run build --if-present
