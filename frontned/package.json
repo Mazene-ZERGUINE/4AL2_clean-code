@@ -8,8 +8,8 @@
     "prepare": "cd .. && husky install frontned/.husky",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "eslint ",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
   },
   "private": true,
   "dependencies": {
