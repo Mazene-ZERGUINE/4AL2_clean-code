@@ -5,11 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "eslint:check:": "eslint src/**/*.{html,ts}",
+    "eslint:fix": "eslint --fix src/**/*.{html,ts}",
+    "stylelint:check": "stylelint src/**/*.{css,scss}",
+    "stylelint:fix": "stylelint --fix src/**/*.{css,scss}",
     "prepare": "cd .. && husky install frontned/.husky",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint:check": "eslint src/**/*.{html,ts}",
-    "lint:fix": "eslint --fix src/**/*.{html,ts}"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -43,6 +45,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "lint-staged": "^15.2.0",
+    "stylelint": "^16.1.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-config-standard-scss": "^13.0.0",
     "typescript": "~4.9.4"
   }
 }
