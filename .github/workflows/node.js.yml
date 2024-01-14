@@ -30,9 +30,11 @@ jobs:
           npm ci --prefer-offline
       - name: ESLint check
         run: |
+          cd backend
           npm run lint:check
       - name: Unit tests
         run: |
+          cd backend
           npm run test
       - name: Build
         run: |
