@@ -5,10 +5,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:angular/recommended',
+    'plugin:angular/johnpapa',
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/angular',
   ],
   rules: {
     "semi": ["error", "always"],
@@ -21,7 +19,6 @@ module.exports = {
       { "selector": "interface", "format": ["PascalCase"] }
     ],
     "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
-    'no-console': 'warn',
     'angular/controller-as-vm': ['error', 'never'],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
