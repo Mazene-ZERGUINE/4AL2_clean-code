@@ -22,9 +22,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Dependencies
         run: |
-          cd frontend
+          cd frontned
           npm ci --prefer-offline
       - name: Build Angular
         run: |
-          cd frontend
+          cd frontned
           npm run build --configuration=production
