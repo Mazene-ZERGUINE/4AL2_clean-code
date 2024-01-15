@@ -9,8 +9,8 @@
 		"build": "tsc",
 		"prepare": "cd .. && husky install backend/.husky",
 		"prestart": "npm run build",
-		"lint:check": "eslint .",
-		"lint:fix": "eslint . --fix",
+		"eslint:check": "eslint .",
+		"eslint:fix": "eslint . --fix",
 		"test": "jest",
 		"test:coverage": "jest",
 		"test:watch-all": "jest --watchAll"
