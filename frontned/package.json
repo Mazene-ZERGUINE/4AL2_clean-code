@@ -13,7 +13,9 @@
     "stylelint:fix": "stylelint --fix src/**/*.{css,scss}",
     "prepare": "cd .. && husky install frontned/.husky",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:coverage": "ng test --no-watch --code-coverage",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {

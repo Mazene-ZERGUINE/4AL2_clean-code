@@ -24,6 +24,22 @@ jobs:
         run: |
           cd frontned
           npm ci --prefer-offline
+      - name: HTMLHint check
+        run: |
+          cd frontned
+          npm run htmlhint:check
+      - name: stylelint check
+        run: |
+          cd frontned
+          npm stylelint:check
+      - name: ESLint check
+        run: |
+          cd frontned
+          npm run eslint:check
+      - name: Test Angular
+        run: |
+          cd frontned
+          npm run test:headless
       - name: Build Angular
         run: |
           cd frontned
