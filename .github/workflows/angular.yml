@@ -1,0 +1,46 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Angular CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: |
+          cd frontned
+          npm ci --prefer-offline
+      - name: HTMLHint check
+        run: |
+          cd frontned
+          npm run htmlhint:check
+      - name: stylelint check
+        run: |
+          cd frontned
+          npm run stylelint:check
+      - name: ESLint check
+        run: |
+          cd frontned
+          npm run eslint:check
+      - name: Test Angular
+        run: |
+          cd frontned
+          npm run test:headless
+      - name: Build Angular
+        run: |
+          cd frontned
+          npm run build --configuration=production
