@@ -31,7 +31,7 @@ jobs:
       - name: stylelint check
         run: |
           cd frontned
-          npm stylelint:check
+          npm run stylelint:check
       - name: ESLint check
         run: |
           cd frontned
