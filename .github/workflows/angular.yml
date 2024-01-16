@@ -22,25 +22,25 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Dependencies
         run: |
-          cd frontned
+          cd frontend
           npm ci --prefer-offline
       - name: HTMLHint check
         run: |
-          cd frontned
+          cd frontend
           npm run htmlhint:check
       - name: stylelint check
         run: |
-          cd frontned
+          cd frontend
           npm run stylelint:check
       - name: ESLint check
         run: |
-          cd frontned
+          cd frontend
           npm run eslint:check
       - name: Test Angular
         run: |
-          cd frontned
+          cd frontend
           npm run test:headless
       - name: Build Angular
         run: |
-          cd frontned
+          cd frontend
           npm run build --configuration=production

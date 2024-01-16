@@ -1,5 +1,5 @@
 {
-  "name": "frontned",
+  "name": "frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,7 @@
     "htmlhint:fix": "prettier --write \"src/**/*.html\"",
     "stylelint:check": "stylelint src/**/*.{css,scss}",
     "stylelint:fix": "stylelint --fix src/**/*.{css,scss}",
-    "prepare": "cd .. && husky install frontned/.husky",
+    "prepare": "cd .. && husky install frontend/.husky",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:watch": "ng test --watch=true",
