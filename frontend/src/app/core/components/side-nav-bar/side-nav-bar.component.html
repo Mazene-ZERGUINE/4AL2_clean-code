@@ -1,1 +1,15 @@
-<p>side-nav-bar works!</p>
+<mat-drawer-container class="h-100 w-25 side-nav-bar-container" autosize>
+  <mat-drawer opened mode="side">
+    <mat-list role="list">
+      <mat-list-item *ngFor="let sideNavItem of sideNavMenu" role="listitem" class="w-100">
+        <a [routerLink]="sideNavItem.route" mat-button>
+          <mat-icon>{{ sideNavItem.icon }} </mat-icon>
+          <span>{{ sideNavItem.label }} </span>
+        </a>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
