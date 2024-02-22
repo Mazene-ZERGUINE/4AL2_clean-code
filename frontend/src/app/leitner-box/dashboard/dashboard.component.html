@@ -1,0 +1,8 @@
+<div class="m-2 dashboard">
+  <h1>Hello Zakarya ! Are you ready to study ?</h1>
+  <h3>
+    Today {{ (cards$ | async)?.length }} cards to study. Comeback tomorow too learn more. But you
+    can review your list.
+  </h3>
+  <app-card-list-by-tag class="w-50"></app-card-list-by-tag>
+</div>

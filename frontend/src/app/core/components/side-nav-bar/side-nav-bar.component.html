@@ -1,0 +1,27 @@
+<mat-drawer-container class="h-100 side-nav-bar-container" autosize>
+  <mat-drawer #drawer mode="side" opened class="w-25">
+    <mat-list role="list">
+      <a class="d-flex justify-content-center">
+        <img src="../../../../assets/logo.svg" alt="logo" />
+      </a>
+      <mat-list-item *ngFor="let sideNavItem of sideNavMenu" role="listitem" class="mb-3 mt-3">
+        <a
+          [routerLink]="sideNavItem.route"
+          mat-button
+          queryParamsHandling="merge"
+          class="p-4 d-flex justify-content-center"
+        >
+          <mat-icon>{{ sideNavItem.icon }} </mat-icon>
+          <span>{{ sideNavItem.label }} </span>
+        </a>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content class="p-4">
+    <button mat-button (click)="drawer.toggle()">
+      <mat-icon *ngIf="drawer.opened">close</mat-icon>
+      <mat-icon *ngIf="!drawer.opened">menu_open</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

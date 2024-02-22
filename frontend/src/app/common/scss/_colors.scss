@@ -1,0 +1,8 @@
+@use 'src/app/common/scss/variables/colors';
+
+/*********************
+**** BACKGROUND ******
+**********************/
+.bg-light-black {
+  background-color: colors.$light-black;
+}

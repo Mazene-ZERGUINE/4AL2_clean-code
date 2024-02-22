@@ -1,0 +1,4 @@
+<app-card-list-by-key-card
+  *ngFor="let cardByTag of cardsByTags$ | async | keyvalue"
+  [cardByCardKey]="cardByTag"
+></app-card-list-by-key-card>

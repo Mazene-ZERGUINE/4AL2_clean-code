@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'angular'],
+  plugins: ['@typescript-eslint', 'angular',"unused-imports"],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -12,6 +12,16 @@ module.exports = {
     "semi": ["error", "always"],
     "no-console": "warn",
     "no-unused-vars": ["error", { "args": "none" }],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+      },
+    ],
     "@typescript-eslint/naming-convention": [
       "error",
       { "selector": "variable", "format": ["camelCase", "UPPER_CASE"] },
