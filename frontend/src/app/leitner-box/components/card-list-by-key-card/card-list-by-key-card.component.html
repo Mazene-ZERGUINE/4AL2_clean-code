@@ -1,0 +1,15 @@
+<mat-accordion *ngIf="cardByCardKey">
+  <mat-expansion-panel class="mb-2">
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ cardByCardKey.key }} </mat-panel-title>
+      <mat-panel-description> {{ cardByCardKey.value.length }} elements </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-card-list class="d-flex" [cards]="cardByCardKey.value"></app-card-list>
+    <mat-action-row>
+      <button mat-button class="bg-light-black text-white">
+        <span>Study now</span>
+        <mat-icon> keyboard_arrow_right</mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

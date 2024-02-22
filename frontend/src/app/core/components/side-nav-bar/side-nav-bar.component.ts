@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SideNavMenuType } from '../interface/side-nav-bar.interface';
+import { SideNavMenuType } from '../../models/types/side-nav-menu.type';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -11,32 +11,27 @@ export class SideNavBarComponent {
     {
       icon: 'dashboard',
       label: 'Dashboard',
-      route: 'leitner-box',
-    },
-    {
-      icon: 'list_icon',
-      label: 'List',
-      route: 'list',
+      route: 'leitner-box/dashboard',
     },
     {
       icon: 'category',
       label: 'Category',
-      route: 'category',
+      route: 'leitner-box/category',
     },
     {
       icon: 'person',
       label: 'Account',
-      route: 'account',
+      route: 'leitner-box/account',
     },
     {
       icon: 'notifications',
       label: 'Reminder',
-      route: '/reminder',
+      route: 'leitner-box/reminder',
     },
     {
       icon: 'security',
       label: 'Security',
-      route: '/security',
+      route: 'leitner-box/security',
     },
   ];
 }
