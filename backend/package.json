@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-		"start": "node dist/index.js",
 		"build": "tsc",
+		"start": "tsc && node dist/index.js",
+		"start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
 		"prepare": "cd .. && husky install backend/.husky",
 		"prestart": "npm run build",
 		"eslint:check": "eslint 'src/**/*.{ts,js}'",
