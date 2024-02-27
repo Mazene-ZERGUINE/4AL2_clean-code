@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
+import { CardRepository } from '../../domain/card/CardRepository';
 
 export class CardController {
+	static cardRepository: CardRepository;
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	static getAll(req: Request, res: Response): void {
 		throw new Error('Method not implemented.');

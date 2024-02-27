@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { CardController } from '../controller/Card.controller';
+import { CardController } from './Card.controller';
 
 class CardsRouter {
 	private readonly _router = Router();

@@ -1,29 +1,53 @@
-import { Express, json, Request, Response, urlencoded } from 'express';
+import { Express, Request, Response } from 'express';
 import cors from 'cors';
-import cardsRouter from './adapter/in/router/cards.router';
+import { json, urlencoded } from 'body-parser';
+import { CardRepository } from './domain/card/CardRepository';
+import cardsRouter from './presentation/cards/cards.router'; // Adjust the import path accordingly
 
-export abstract class Configuration {
-	private static app?: Express;
+export class ConfigurationBuilder {
+	private app?: Express;
+	private cardRepository?: CardRepository;
 
-	static setApp(app: Express): void {
+	withApp(app: Express): ConfigurationBuilder {
 		this.app = app;
-
-		this.useMiddlewares();
-		this.useRoutes();
+		return this;
 	}
 
-	private static useMiddlewares(): void {
+	withCardRepository(repository: CardRepository): ConfigurationBuilder {
+		this.cardRepository = repository;
+		return this;
+	}
+
+	useMiddlewares(): ConfigurationBuilder {
+		if (!this.app) {
+			throw new Error('Express app is not set.');
+		}
+
 		this.app
-			?.use(cors())
+			.use(cors())
 			.use(json())
 			.use(urlencoded({ extended: true }));
+
+		return this;
 	}
 
-	private static useRoutes(): void {
+	useRoutes(): ConfigurationBuilder {
+		if (!this.app) {
+			throw new Error('Express app is not set.');
+		}
+
 		this.app
-			?.use('/ping', (req: Request, res: Response) => {
-				res.json('ping');
-			})
+			.use('/ping', (req: Request, res: Response) => res.json('ping'))
 			.use('/cards', cardsRouter.router);
+
+		return this;
+	}
+
+	build(): Express {
+		if (!this.app) {
+			throw new Error('Express app is not configured.');
+		}
+
+		return this.app;
 	}
 }
