@@ -10,37 +10,47 @@
 ## Installation
 ### Installer le back-end
 ```
+cd backend
 npm install
+npm run start
 ```
 
 ### Installer le front-end
 ```
+cd frontend
 npm install
+npm run start
 ```
   
 ## Lancement
 ### Lancer le back-end :
 - application :
   ```
-  TODO...
+  cd backend
+  npm run start
   ```
 - tests unitaires avec couverture de code :
   ```
-  TODO...
+  npm run test
   ```
   
 ### Lancer le front-end :
 - application :
   ```
+  cd frontend
   npm run start
   ```
 - tests unitaires avec couverture de code :
   ```
-  TODO...
+  npm run test:coverage
   ```
 
 ## Conception
-TODO...
+### Architecture hexagonale
+![](docs/schemas/clean_code-hexa.png)
+
+### Domaine
+![](docs/schemas/clean_code-domain.png)
 
 ## Fonctionnalites
 - [ ] me connecter pour accéder à mes propres fiches
