@@ -1,20 +1,36 @@
 import { Express, Request, Response } from 'express';
 import cors from 'cors';
 import { json, urlencoded } from 'body-parser';
+
 import { CardRepository } from './domain/card/CardRepository';
-import cardsRouter from './presentation/cards/cards.router'; // Adjust the import path accordingly
+import { CardController } from './presentation/cards/Card.controller';
+import {CardRouter} from "./presentation/cards/card.router";
 
 export class ConfigurationBuilder {
 	private app?: Express;
 	private cardRepository?: CardRepository;
+	private cardController?: CardController;
+	private cardRouter?: CardRouter;
 
 	withApp(app: Express): ConfigurationBuilder {
 		this.app = app;
 		return this;
 	}
 
+	withCardController(controller: CardController): ConfigurationBuilder {
+		this.cardController = controller;
+		return this;
+	}
+
 	withCardRepository(repository: CardRepository): ConfigurationBuilder {
 		this.cardRepository = repository;
+		return this;
+	}
+
+	withCardRouter(router: CardRouter): ConfigurationBuilder {
+		this.cardRouter = router;
+
+
 		return this;
 	}
 
@@ -35,10 +51,13 @@ export class ConfigurationBuilder {
 		if (!this.app) {
 			throw new Error('Express app is not set.');
 		}
+		if (!this.cardRouter) {
+			throw new Error('Card router is not set.');
+		}
 
 		this.app
 			.use('/ping', (req: Request, res: Response) => res.json('ping'))
-			.use('/cards', cardsRouter.router);
+			.use('/cards', this.cardRouter.router);
 
 		return this;
 	}

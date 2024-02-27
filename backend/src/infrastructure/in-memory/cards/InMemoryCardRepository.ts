@@ -11,9 +11,8 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	createCard(card: CreateCardRequest): Card {
-		throw new Error('Method not implemented.');
-		// this.registry.set(card.id, card);
+	createCard(request: CreateCardRequest): Card {
+			throw new Error('Method not implemented.');
 	}
 
 	loadAllCards(): Card[] {

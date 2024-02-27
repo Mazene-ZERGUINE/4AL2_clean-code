@@ -1,26 +1,33 @@
 import { Request, Response } from 'express';
-import { CardRepository } from '../../domain/card/CardRepository';
+
+import { CardService } from '../../domain/card/CardService';
 
 export class CardController {
-	static cardRepository: CardRepository;
+	private readonly _cardService: CardService;
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	static getAll(req: Request, res: Response): void {
-		throw new Error('Method not implemented.');
+	constructor(cardService: CardService) {
+		this._cardService = cardService;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	static create(req: Request, res: Response): void {
-		throw new Error('Method not implemented.');
-	}
+	getAll = (req: Request, res: Response): void => {
+		const cards = this._cardService.getAll();
+
+		res.status(200).json(cards);
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	static getQuizz(req: Request, res: Response): void {
+	create = (req: Request, res: Response): void => {
 		throw new Error('Method not implemented.');
-	}
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	static answerCard(req: Request, res: Response): void {
+	getQuizz = (req: Request, res: Response): void => {
 		throw new Error('Method not implemented.');
-	}
+	};
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	answerCard = (req: Request, res: Response): void => {
+		throw new Error('Method not implemented.');
+	};
 }
