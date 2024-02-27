@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowAllCardsDialogComponent } from './show-all-cards-dialog.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 describe('ShowAllCardsDialogComponent', () => {
   let component: ShowAllCardsDialogComponent;
@@ -9,6 +10,10 @@ describe('ShowAllCardsDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ShowAllCardsDialogComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShowAllCardsDialogComponent);
