@@ -1,19 +1,17 @@
-import express, {Request, Response} from 'express';
-import {Express} from 'express';
-
-
-
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-const port: number = Number(process.env.SERVER_PORT) || 3000;
-const app: Express = express();
+import express from 'express';
+import { Configuration } from './Configuration';
 
-app.get("/", (req: Request, res: Response) => {
-	res.json("ping");
-});
+const app = express();
+const HOST = process.env.HOST || 'localhost';
+const PORT: number = Number(process.env.SERVER_PORT) || 8080;
 
-app.listen(port, () => {
+Configuration.setApp(app);
+
+app.listen(PORT, () => {
 	// eslint-disable-next-line no-console
-	console.log(`🚀 Server is running on port ${port}`);
+	console.log(`🚀 Server is running at http://${HOST}:${PORT}`);
 });
