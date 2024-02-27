@@ -9,6 +9,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 @NgModule({
   exports: [
     MatSidenavModule,
@@ -21,6 +26,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatExpansionModule,
     MatDividerModule,
     MatGridListModule,
+    MatDialogModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
 })
 export class MaterialModule {}
