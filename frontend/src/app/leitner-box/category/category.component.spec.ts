@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoryComponent } from './category.component';
-import { CardListByCategoryComponent } from '../components/card-list-by-category/card-list-by-category.component';
 import { CardsService } from '../services/cards.service';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../core/models/card.model';
@@ -18,7 +17,7 @@ describe('CategoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CategoryComponent, CardListByCategoryComponent],
+      declarations: [CategoryComponent],
       providers: [{ provide: CardsService, useClass: MockCardsService }],
     }).compileComponents();
 

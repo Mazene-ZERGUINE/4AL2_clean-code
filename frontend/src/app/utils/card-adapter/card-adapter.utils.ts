@@ -1,14 +1,15 @@
 import { Card } from 'src/app/core/models/card.model';
-import { getCardsByCardKeyMap } from '../utils';
-import { CardKey } from 'src/app/shared/variables/enum';
 
 export const getCardsByTagsMap = (tags: string[], cards: Card[]): Map<string, Card[]> => {
-  return getCardsByCardKeyMap(tags, cards, CardKey.Tag);
-};
+  const cardByTagMap = new Map<string, Card[]>();
 
-export const getCardsByCategoriesMap = (
-  categories: string[],
-  cards: Card[],
-): Map<string, Card[]> => {
-  return getCardsByCardKeyMap(categories, cards, CardKey.Category);
+  tags.forEach((tag) => {
+    const filteredCards = cards.filter((card) => card.tag.toLowerCase() === tag.toLowerCase());
+
+    if (filteredCards.length > 0) {
+      cardByTagMap.set(tag, filteredCards);
+    }
+  });
+
+  return cardByTagMap;
 };

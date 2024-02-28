@@ -1,4 +1,39 @@
-<app-card-list-by-key-card
-  *ngFor="let cardByTag of cardsByTags$ | async | keyvalue"
-  [cardByCardKey]="cardByTag"
-></app-card-list-by-key-card>
+<mat-accordion *ngIf="cardsByTag">
+  <mat-expansion-panel
+    class="mb-2"
+    [expanded]="cardsByTag.key === (cardTag$ | async)"
+    (opened)="panelOpened()"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ cardsByTag.key }} </mat-panel-title>
+      <mat-panel-description>
+        {{ cardsByTag.value.length }} cards to studdy
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="icon-button with a menu"
+          (click)="$event.stopPropagation()"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="handleClickShowAllCards()">
+            <mat-icon>apps</mat-icon>
+            <span>Voir toutes les cartes</span>
+          </button>
+          <button mat-menu-item (click)="handleClickAddCard()">
+            <mat-icon>add_circle</mat-icon>
+            <span>Ajouter une carte</span>
+          </button>
+        </mat-menu>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-card-list class="d-flex flex-wrap" [cards]="cardsByTag.value"></app-card-list>
+    <mat-action-row>
+      <button mat-button class="bg-light-black text-white">
+        <span>Study now</span>
+        <mat-icon> keyboard_arrow_right</mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

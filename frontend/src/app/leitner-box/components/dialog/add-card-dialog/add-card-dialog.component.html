@@ -1,0 +1,31 @@
+<div class="add-card-dialog">
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your question</mat-label>
+      <input
+        matInput
+        placeholder="Ex: what is the diffrence .."
+        [formControl]="addCardForm.controls.question"
+        required
+      />
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <mat-label>Enter your answer</mat-label>
+      <input
+        matInput
+        placeholder="Ex: the diffrence is.."
+        [formControl]="addCardForm.controls.answer"
+        required
+      />
+    </mat-form-field>
+  </p>
+  <div class="action-buttons">
+    <button mat-button class="bg-light-black text-white" (click)="onSubmitForm()">
+      <span>add new card</span>
+      <mat-icon> keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+</div>
