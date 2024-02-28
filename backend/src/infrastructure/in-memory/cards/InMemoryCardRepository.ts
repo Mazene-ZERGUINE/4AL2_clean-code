@@ -2,6 +2,7 @@ import { CreateCardRequest } from '../../../presentation/cards/response-request/
 import { Card } from '../../../domain/card/entities/Card';
 import { randomUUID, UUID } from 'crypto';
 import { CardRepository } from '../../../domain/card/CardRepository';
+import { CardId } from '../../../domain/card/entities/CardId';
 
 export class InMemoryCardRepository implements CardRepository {
 	private readonly registry = new Map<UUID, Card>();
@@ -11,8 +12,8 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	createCard(request: CreateCardRequest): Card {
-			throw new Error('Method not implemented.');
+	save(request: CreateCardRequest): Card {
+		throw new Error('Method not implemented.');
 	}
 
 	loadAllCards(): Card[] {
@@ -21,34 +22,34 @@ export class InMemoryCardRepository implements CardRepository {
 
 	private setRegistryDefaultData(): void {
 		const geographyCard1 = new Card(
-			randomUUID(),
+			new CardId(randomUUID()),
 			'What is the capital of France?',
 			'Paris',
 			'geography',
 		);
 		const geographyCard2 = new Card(
-			randomUUID(),
+			new CardId(randomUUID()),
 			'What is the capital of Spain?',
 			'Madrid',
 			'geography',
 		);
 		const historyCard1 = new Card(
-			randomUUID(),
+			new CardId(randomUUID()),
 			'When did the first world war start?',
 			'1914',
 			'history',
 		);
 		const historyCard2 = new Card(
-			randomUUID(),
+			new CardId(randomUUID()),
 			'When did the second world war start?',
 			'1939',
 			'history',
 		);
 
 		this.registry
-			.set(geographyCard1.id, geographyCard1)
-			.set(geographyCard2.id, geographyCard2)
-			.set(historyCard1.id, historyCard1)
-			.set(historyCard2.id, historyCard2);
+			.set(geographyCard1.cardId.value, geographyCard1)
+			.set(geographyCard2.cardId.value, geographyCard2)
+			.set(historyCard1.cardId.value, historyCard1)
+			.set(historyCard2.cardId.value, historyCard2);
 	}
 }

@@ -2,6 +2,6 @@ import { CreateCardRequest } from '../../presentation/cards/response-request/Cre
 import { Card } from './entities/Card';
 
 export interface CardRepository {
-	createCard(card: CreateCardRequest): Card;
+	save(card: CreateCardRequest): Card;
 	loadAllCards(): Card[];
 }
