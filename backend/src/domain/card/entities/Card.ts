@@ -1,23 +1,29 @@
-import { UUID } from 'crypto';
 import { Category } from './Category';
+import { CardId } from './CardId';
 
 export class Card {
-	private readonly _id: UUID;
+	private readonly _cardId: CardId;
 	private readonly _question: string;
 	private readonly _answer: string;
-	private readonly _tag;
-	private _category;
+	private readonly _tag: string;
+	private _category: Category;
 
-	constructor(id: UUID, question: string, answer: string, tag: string, category = Category.FIRST) {
-		this._id = id;
+	constructor(
+		cardId: CardId,
+		question: string,
+		answer: string,
+		tag: string,
+		category = Category.FIRST,
+	) {
+		this._cardId = cardId;
 		this._question = question;
 		this._answer = answer;
 		this._category = category;
 		this._tag = tag;
 	}
 
-	get id(): UUID {
-		return this._id;
+	get cardId(): CardId {
+		return this._cardId;
 	}
 
 	get question(): string {
