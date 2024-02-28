@@ -3,6 +3,10 @@ import { CreateCardRequest } from '../../presentation/cards/response-request/Cre
 
 export interface CardService {
 	getAll(): Card[];
+
 	getAllByTags(tags: string[]): Card[];
-	create({ question, tag, answer }: CreateCardRequest): Card;
+
+	create({question, tag, answer}: CreateCardRequest): Card;
+
+	getCardsByDate(date: Date): Card[] ;
 }
