@@ -1,29 +1,72 @@
-import { Express, json, Request, Response, urlencoded } from 'express';
+import { Express, Request, Response } from 'express';
 import cors from 'cors';
-import cardsRouter from './adapter/in/router/cards.router';
+import { json, urlencoded } from 'body-parser';
 
-export abstract class Configuration {
-	private static app?: Express;
+import { CardRepository } from './domain/card/CardRepository';
+import { CardController } from './presentation/cards/Card.controller';
+import {CardRouter} from "./presentation/cards/card.router";
 
-	static setApp(app: Express): void {
+export class ConfigurationBuilder {
+	private app?: Express;
+	private cardRepository?: CardRepository;
+	private cardController?: CardController;
+	private cardRouter?: CardRouter;
+
+	withApp(app: Express): ConfigurationBuilder {
 		this.app = app;
-
-		this.useMiddlewares();
-		this.useRoutes();
+		return this;
 	}
 
-	private static useMiddlewares(): void {
+	withCardController(controller: CardController): ConfigurationBuilder {
+		this.cardController = controller;
+		return this;
+	}
+
+	withCardRepository(repository: CardRepository): ConfigurationBuilder {
+		this.cardRepository = repository;
+		return this;
+	}
+
+	withCardRouter(router: CardRouter): ConfigurationBuilder {
+		this.cardRouter = router;
+
+
+		return this;
+	}
+
+	useMiddlewares(): ConfigurationBuilder {
+		if (!this.app) {
+			throw new Error('Express app is not set.');
+		}
+
 		this.app
-			?.use(cors())
+			.use(cors())
 			.use(json())
 			.use(urlencoded({ extended: true }));
+
+		return this;
 	}
 
-	private static useRoutes(): void {
+	useRoutes(): ConfigurationBuilder {
+		if (!this.app) {
+			throw new Error('Express app is not set.');
+		}
+		if (!this.cardRouter) {
+			throw new Error('Card router is not set.');
+		}
+
 		this.app
-			?.use('/ping', (req: Request, res: Response) => {
-				res.json('ping');
-			})
-			.use('/cards', cardsRouter.router);
+			.use('/ping', (req: Request, res: Response) => res.json('ping'))
+			.use('/cards', this.cardRouter.router);
+
+		return this;
+	}
+
+	build(): Express {
+		if (!this.app) {
+			throw new Error('Express app is not configured.');
+		}
+
+		return this.app;
 	}
 }
