@@ -14,12 +14,12 @@ export class CardController {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getAll = (req: Request, res: Response): void => {
 		const cards = this._cardService.getAll();
-		const response = cards.map((card) => this.getTodoAsResponse(req, card));
+		const response = cards.map((card) => this.getCardAsResponse(req, card));
 
 		res.status(200).json(response);
 	};
 
-	getTodoAsResponse(req: Request, card: Card): CardResponse {
+	getCardAsResponse(req: Request, card: Card): CardResponse {
 		return new CardResponse(card);
 	}
 
