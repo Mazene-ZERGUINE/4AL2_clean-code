@@ -47,9 +47,9 @@ export class InMemoryCardRepository implements CardRepository {
 		);
 
 		this.registry
-			.set(geographyCard1.cardId.id, geographyCard1)
-			.set(geographyCard2.cardId.id, geographyCard2)
-			.set(historyCard1.cardId.id, historyCard1)
-			.set(historyCard2.cardId.id, historyCard2);
+			.set(geographyCard1.cardId.value, geographyCard1)
+			.set(geographyCard2.cardId.value, geographyCard2)
+			.set(historyCard1.cardId.value, historyCard1)
+			.set(historyCard2.cardId.value, historyCard2);
 	}
 }

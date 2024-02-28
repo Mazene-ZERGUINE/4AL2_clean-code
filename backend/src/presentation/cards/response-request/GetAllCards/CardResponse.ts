@@ -9,7 +9,7 @@ export class CardResponse {
 	private readonly category: Category;
 
 	constructor({ cardId, question, answer, tag, category }: Card) {
-		this.id = cardId.id as string;
+		this.id = cardId.value as string;
 		this.question = question;
 		this.answer = answer;
 		this.tag = tag;
