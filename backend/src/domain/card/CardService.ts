@@ -1,5 +1,8 @@
 import { CardRepository } from './CardRepository';
 import { Card } from './entities/Card';
+import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
+import { randomUUID } from 'crypto';
+import { CardId } from './entities/CardId';
 
 export class CardService {
 	private readonly _cardRepository: CardRepository;
@@ -8,12 +11,18 @@ export class CardService {
 		this._cardRepository = cardRepository;
 	}
 
-	// create(card:Card):void {
-	//
-	// 	this._cardRepository.save(card);
-	// }
-
 	getAll(): Card[] {
 		return this._cardRepository.loadAllCards();
+	}
+
+	getAllByTags(tags: string[]): Card[] {
+		return this._cardRepository.loadAllCardsByTags(tags);
+	}
+
+	create({ question, tag, answer }: CreateCardRequest): Card {
+		const card = new Card(new CardId(randomUUID()), question, answer, tag);
+		this._cardRepository.save(card);
+
+		return card;
 	}
 }

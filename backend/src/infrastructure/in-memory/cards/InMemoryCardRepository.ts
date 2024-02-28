@@ -1,4 +1,3 @@
-import { CreateCardRequest } from '../../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 import { Card } from '../../../domain/card/entities/Card';
 import { randomUUID, UUID } from 'crypto';
 import { CardRepository } from '../../../domain/card/CardRepository';
@@ -11,13 +10,38 @@ export class InMemoryCardRepository implements CardRepository {
 		this.setRegistryDefaultData();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	save(request: CreateCardRequest): Card {
-		throw new Error('Method not implemented.');
-	}
-
 	loadAllCards(): Card[] {
 		return [...this.registry.values()];
+	}
+
+	loadAllCardsByTags(tags: string[]): Card[] {
+		const cards: Card[] = [];
+
+		this.registry.forEach((card) => {
+			if (tags.includes(card.tag)) {
+				cards.push(card);
+			}
+		});
+
+		return cards;
+	}
+
+	save(card: Card): void {
+		if (!this.isQuestionUnique(card.question)) {
+			throw new Error();
+		}
+
+		this.registry.set(card.cardId.value, card);
+	}
+
+	private isQuestionUnique(question: string): boolean {
+		for (const existingCard of this.registry.values()) {
+			if (existingCard.question === question) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private setRegistryDefaultData(): void {

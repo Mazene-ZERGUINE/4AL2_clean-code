@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 
 import { CardService } from '../../domain/card/CardService';
-import { CardResponse } from './response-request/GetAllCards/CardResponse';
+import { CardResponse } from './response-request/CardResponse';
 import { Card } from '../../domain/card/entities/Card';
+import { CreateCardRequest } from './response-request/CreateCard/CreateCardRequest';
+import { CreateCardRequestArguments } from './response-request/CreateCard/CreateCardRequestArguments';
 
 export class CardController {
 	private readonly _cardService: CardService;
@@ -11,30 +13,42 @@ export class CardController {
 		this._cardService = cardService;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getAll = (req: Request, res: Response): void => {
-		const cards = this._cardService.getAll();
-		const response = cards.map((card) => this.getCardAsResponse(req, card));
+	getAll = (request: Request, response: Response): void => {
+		const tags: string[] = request.query.tags ? (request.query.tags as string).split(',') : [];
+		const cards =
+			tags.length == 0 ? this._cardService.getAll() : this._cardService.getAllByTags(tags);
+		const cardResponses: CardResponse[] = cards.map((card) => this.getCardAsResponse(card));
 
-		res.status(200).json(response);
+		response.status(200).json(cardResponses);
 	};
 
-	getCardAsResponse(req: Request, card: Card): CardResponse {
+	private getCardAsResponse(card: Card): CardResponse {
 		return new CardResponse(card);
 	}
 
+	create = (request: Request, response: Response): void => {
+		const { question, answer, tag } = request.body;
+
+		try {
+			const createCardRequestParameters = CreateCardRequestArguments.of(question, tag, answer);
+			const createCardRequest = new CreateCardRequest(createCardRequestParameters);
+
+			const card = this._cardService.create(createCardRequest);
+			const cardResponse = this.getCardAsResponse(card);
+
+			response.status(201).json(cardResponse);
+		} catch (_) {
+			response.status(400).end();
+		}
+	};
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	create = (req: Request, res: Response): void => {
+	getQuizz = (request: Request, response: Response): void => {
 		throw new Error('Method not implemented.');
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQuizz = (req: Request, res: Response): void => {
-		throw new Error('Method not implemented.');
-	};
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	answerCard = (req: Request, res: Response): void => {
+	answerCard = (request: Request, response: Response): void => {
 		throw new Error('Method not implemented.');
 	};
 }
