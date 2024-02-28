@@ -43,12 +43,15 @@ export class CardController {
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQuizz = (request: Request, response: Response): void => {
-		throw new Error('Method not implemented.');
+	getQuizz = (req: Request, res: Response): void => {
+		const date: string = (req.query.date as string) || new Date().toISOString();
+		const quizzDate: Date = new Date(date);
+
+		const cards: Card[] = this._cardService.getCardsByDate(quizzDate);
+		const response = cards.map((card: Card) => this.getCardAsResponse(card));
+
+		res.status(200).json(response);
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	answerCard = (request: Request, response: Response): void => {
-		throw new Error('Method not implemented.');
-	};
 }
