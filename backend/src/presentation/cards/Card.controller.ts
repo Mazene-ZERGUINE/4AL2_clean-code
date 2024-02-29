@@ -52,5 +52,20 @@ export class CardController {
 		response.status(200).json(cardResponses);
 	};
 
-	answerCard = (): void => {};
+	answerCard = (request: Request, response: Response): void => {
+		const { cardId } = request.params;
+		const { isValid } = request.body;
+
+		const answerdCard = this._cardService.getCardById(cardId);
+
+		if (answerdCard === undefined) {
+			response.status(404).json('card not found');
+		}
+
+		isValid
+			? this._cardService.upgradeCard(answerdCard as Card)
+			: this._cardService.downgradeCard(answerdCard as Card);
+
+		response.send('ok');
+	};
 }
