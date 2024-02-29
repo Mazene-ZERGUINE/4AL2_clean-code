@@ -4,8 +4,8 @@ import { CreateCardRequest } from '../../../presentation/cards/response-request/
 import { CardId } from '../../../domain/card/entities/CardId';
 import { randomUUID } from 'crypto';
 import { CardService } from '../../../domain/card/CardService';
-import {Category} from "../../../domain/card/entities/Category";
-import {differenceInDays} from "date-fns";
+import { Category } from '../../../domain/card/entities/Category';
+import { differenceInDays } from 'date-fns';
 
 export class CardServiceImpl implements CardService {
 	private readonly _cardRepository: CardRepository;
@@ -50,11 +50,18 @@ export class CardServiceImpl implements CardService {
 
 		allCards.forEach((card: Card) => {
 			const order = categoryOrder[card.category as keyof typeof categoryOrder];
-			if (order !== undefined && frequency % Math.pow(2, order) === 0) {
+			if (this.isTodayQuizzCard(order, frequency)) {
 				todayCards.push(card);
 			}
 		});
 
 		return todayCards;
+	}
+
+	private isTodayQuizzCard(order: number, frequency: number): boolean {
+		if (order !== undefined && frequency % Math.pow(2, order) === 0) {
+			return true;
+		}
+		return false;
 	}
 }

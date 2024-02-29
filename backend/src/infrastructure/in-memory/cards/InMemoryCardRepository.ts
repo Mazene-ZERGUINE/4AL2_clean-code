@@ -84,7 +84,7 @@ export class InMemoryCardRepository implements CardRepository {
 		const programmingCard1 = new Card(
 			new CardId(randomUUID()),
 			'Who invented linux',
-			'trovald somthing',
+			'Linus Torvalds',
 			'programming',
 			Category.SECOND,
 		);
@@ -92,7 +92,7 @@ export class InMemoryCardRepository implements CardRepository {
 		const programmingCard2 = new Card(
 			new CardId(randomUUID()),
 			'Who is the best c programmer',
-			'of cours it is sannanes',
+			'of cours it is Sananes',
 			'programming',
 			Category.THIRD,
 		);
