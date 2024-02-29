@@ -60,4 +60,17 @@ export class CardServiceImpl implements CardService {
 	private isTodayQuizzCard(order: number, frequency: number): boolean {
 		return order !== undefined && frequency % Math.pow(2, order) === 0;
 	}
+
+	getCardById(cardId: string): Card | undefined {
+		return this._cardRepository.loadAllCards().find((card: Card) => card.cardId.value === cardId);
+	}
+
+	upgradeCard(card: Card) {
+		console.log(card.category);
+	}
+
+	downgradeCard(card: Card) {
+		console.log(card.category);
+
+	}
 }
