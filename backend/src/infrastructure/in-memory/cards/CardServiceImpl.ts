@@ -32,7 +32,6 @@ export class CardServiceImpl implements CardService {
 	getCardsByDate(date: Date): Card[] {
 		const allCards = this._cardRepository.loadAllCards();
 
-		// date de demo pour le calcule des fréquance des cards
 		const learningStartDate: Date = new Date('2024-02-12');
 		const frequency = differenceInDays(date, learningStartDate);
 
@@ -59,9 +58,6 @@ export class CardServiceImpl implements CardService {
 	}
 
 	private isTodayQuizzCard(order: number, frequency: number): boolean {
-		if (order !== undefined && frequency % Math.pow(2, order) === 0) {
-			return true;
-		}
-		return false;
+		return order !== undefined && frequency % Math.pow(2, order) === 0;
 	}
 }

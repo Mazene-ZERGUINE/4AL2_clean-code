@@ -54,6 +54,4 @@ export class CardController {
 	};
 
 	answerCard = (): void => {};
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 }
