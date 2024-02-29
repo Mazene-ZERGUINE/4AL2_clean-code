@@ -53,5 +53,7 @@ export class CardController {
 		res.status(200).json(response);
 	};
 
+	answerCard = (): void => {};
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 }
