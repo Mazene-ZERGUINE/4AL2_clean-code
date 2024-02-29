@@ -43,11 +43,11 @@ export class CardController {
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQuizz = (req: Request, res: Response): void => {
+	getQuiz = (req: Request, res: Response): void => {
 		const date: string = (req.query.date as string) || new Date().toISOString();
-		const quizzDate: Date = new Date(date);
+		const quizDate: Date = new Date(date);
 
-		const cards: Card[] = this._cardService.getCardsByDate(quizzDate);
+		const cards: Card[] = this._cardService.getCardsByDate(quizDate);
 		const response = cards.map((card: Card) => this.getCardAsResponse(card));
 
 		res.status(200).json(response);
