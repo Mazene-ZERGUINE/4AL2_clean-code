@@ -4,9 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/common/services/navigation/navigation.service';
 import { Card } from 'src/app/core/models/card.model';
+<<<<<<< HEAD
 import { MoreActionService } from '../../services/utils/more-actions.service';
 
 const tagQueryParam = 'tag';
+=======
+import { MoreActionService } from '../../../shared/services/utils/more-actions.service';
+
+const tagQueryParam = 'tagOpend';
+>>>>>>> f5a8d35 (adding quizz stepper, button for adding list, and improving forms)
 
 @Component({
   selector: 'app-card-list-by-tag',
@@ -15,16 +21,16 @@ const tagQueryParam = 'tag';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardListByTagComponent {
+  @Input() cards: Card[] | undefined;
+  @Input() cardsByTag: KeyValue<string, Card[]> | undefined;
+
   constructor(
     private moreActionService: MoreActionService,
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
   ) {}
 
-  @Input() cards: Card[] | undefined;
-  @Input() cardsByTag: KeyValue<string, Card[]> | undefined;
-
-  readonly cardTag$: Observable<string | null> =
+  readonly cardTagParam$: Observable<string | null> =
     this.navigationService.getQueryParamValueFromActivatedRoute$(
       this.activatedRoute,
       tagQueryParam,
@@ -33,7 +39,7 @@ export class CardListByTagComponent {
   panelOpened(): void {
     if (this.cardsByTag?.key) {
       this.navigationService.addQueriesToCurrentUrl({
-        tag: this.cardsByTag.key,
+        [tagQueryParam]: this.cardsByTag.key,
       });
     }
   }
@@ -49,6 +55,12 @@ export class CardListByTagComponent {
   handleClickAddCard() {
     if (this.cardsByTag) {
       this.moreActionService.openAddCardDialog$(this.cardsByTag?.key);
+    }
+  }
+
+  handleClickShowQuizzStepper() {
+    if (this.cardsByTag) {
+      this.moreActionService.openQuizzStepperDialog$(this.cardsByTag?.value);
     }
   }
 }

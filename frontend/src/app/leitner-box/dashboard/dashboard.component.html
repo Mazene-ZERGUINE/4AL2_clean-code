@@ -2,16 +2,27 @@
   <ng-container *ngIf="cards.length > 0">
     <div class="m-2 dashboard">
       <h1>Hello Zakarya ! Are you ready to study ?</h1>
+  <div class="m-2 dashboard d-flex flex-column">
+    <h1>Hello Zakarya ! Are you ready to study ?</h1>
+    <ng-container *ngIf="(gettingListStatus$ | async) === laodCardStatus.Success; else loading">
       <h3 *ngIf="onlyFirstCategoryCard$ | async; let onlyFirstCategoryCard">
         Today {{ onlyFirstCategoryCard.length }} cards to study.
       </h3>
+
+      <button mat-button class="bg-light-black text-white mb-4 w-25" (click)="handleClickAddList()">
+        <span>add new list</span>
+        <mat-icon>add</mat-icon>
+      </button>
 
       <app-card-list-by-tag
         *ngFor="let cardsByTag of cardsByTag$ | async | keyvalue"
         [cardsByTag]="cardsByTag"
         [cards]="cards"
-        class="w-50"
+        class="w-100"
       ></app-card-list-by-tag>
-    </div>
-  </ng-container>
+    </ng-container>
+    <ng-template #loading>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </div>
 </ng-container>

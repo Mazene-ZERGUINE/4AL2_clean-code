@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ShowAllCardDialogData } from '../../../services/utils/more-actions.service';
+import { Card } from 'src/app/core/models/card.model';
 
 export enum TableShowAllCardColumns {
   Category = 'category',
@@ -17,7 +17,7 @@ export enum TableShowAllCardColumns {
 export class ShowAllCardsDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ShowAllCardsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ShowAllCardDialogData,
+    @Inject(MAT_DIALOG_DATA) public data: { cards: Card[] },
   ) {}
 
   readonly TableShowAllCardColumns = TableShowAllCardColumns;

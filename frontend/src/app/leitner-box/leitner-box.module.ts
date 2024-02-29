@@ -12,7 +12,8 @@ import { ShowAllCardsDialogComponent } from './components/dialog/show-all-cards-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeitnerBoxRoutingModule } from './leitner-box-routing.module';
 import { CardsService } from './services/cards.service';
-import { MoreActionService } from './services/utils/more-actions.service';
+import { MoreActionService } from '../shared/services/utils/more-actions.service';
+import { QuizzStepperDialogComponent } from './components/dialog/quizz-stepper-dialog/quizz-stepper-dialog.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, FormsModule, SharedModule, LeitnerBoxRoutingModule],
@@ -24,6 +25,7 @@ import { MoreActionService } from './services/utils/more-actions.service';
     CardListByTagComponent,
     ShowAllCardsDialogComponent,
     AddCardDialogComponent,
+    QuizzStepperDialogComponent,
   ],
   providers: [CardsService, MoreActionService],
 })

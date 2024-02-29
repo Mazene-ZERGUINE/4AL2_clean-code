@@ -4,7 +4,7 @@ import { CardListByTagComponent } from './card-list-by-tag.component';
 import { CardsService } from '../../services/cards.service';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../core/models/card.model';
-import { MoreActionService } from '../../services/utils/more-actions.service';
+import { MoreActionService } from '../../../shared/services/utils/more-actions.service';
 import { ActivatedRoute } from '@angular/router';
 
 class MockCardsService {

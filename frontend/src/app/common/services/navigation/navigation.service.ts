@@ -18,6 +18,7 @@ export class NavigationService {
       distinctUntilChanged(),
     );
   }
+
   addQueriesToCurrentUrl(queryParams: Record<string, unknown>): void {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
