@@ -1,4 +1,4 @@
-export class CreateCardRequestArguments {
+export class CardUserData {
 	private readonly _question: string;
 	private readonly _answer: string;
 	private readonly _tag: string;
@@ -16,11 +16,8 @@ export class CreateCardRequestArguments {
 		if (!answer) {
 			throw new Error('No answer provided');
 		}
-		if (!tag) {
-			throw new Error('No tag provided');
-		}
 
-		return new CreateCardRequestArguments(question, answer, tag);
+		return new CardUserData(question, answer, tag);
 	}
 
 	get question(): string {
