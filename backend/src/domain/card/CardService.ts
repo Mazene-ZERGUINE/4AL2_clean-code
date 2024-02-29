@@ -9,6 +9,4 @@ export interface CardService {
 	create({question, tag, answer}: CreateCardRequest): Card;
 
 	getCardsByDate(date: Date): Card[] ;
-
-
 }
