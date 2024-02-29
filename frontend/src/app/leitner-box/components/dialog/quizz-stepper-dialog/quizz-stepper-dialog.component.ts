@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Card } from 'src/app/core/models/card.model';
@@ -21,7 +21,6 @@ export class QuizzStepperDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<QuizzStepperDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: { cards: Card[] },
-    private _formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
   ) {}
 
