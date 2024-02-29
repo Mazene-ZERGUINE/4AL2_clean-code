@@ -13,13 +13,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-<<<<<<< HEAD
-=======
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
->>>>>>> f5a8d35 (adding quizz stepper, button for adding list, and improving forms)
 
 @NgModule({
   exports: [
@@ -37,13 +34,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-<<<<<<< HEAD
-=======
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatStepperModule,
     MatAutocompleteModule,
->>>>>>> f5a8d35 (adding quizz stepper, button for adding list, and improving forms)
   ],
 })
 export class MaterialModule {}
