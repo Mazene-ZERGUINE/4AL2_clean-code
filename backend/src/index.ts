@@ -6,6 +6,8 @@ import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';
 import { CardRouter } from './presentation/cards/card.router';
 import dotenv from 'dotenv';
+import { CardServiceImpl } from './infrastructure/in-memory/cards/CardServiceImpl';
+import { IRouter } from './presentation/Router';
 
 dotenv.config();
 
@@ -13,9 +15,9 @@ const HOST = process.env.HOST || 'localhost';
 const PORT: number = Number(process.env.SERVER_PORT) || 8080;
 
 const cardRepository: CardRepository = new InMemoryCardRepository();
-const cardService = new CardService(cardRepository);
+const cardService: CardService = new CardServiceImpl(cardRepository);
 const cardController = new CardController(cardService);
-const cardRouter = new CardRouter(cardController);
+const cardRouter: IRouter = new CardRouter(cardController);
 
 const app = new ConfigurationBuilder()
 	.withApp(express())

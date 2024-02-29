@@ -4,13 +4,13 @@ import { json, urlencoded } from 'body-parser';
 
 import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';
-import {CardRouter} from "./presentation/cards/card.router";
+import { IRouter } from './presentation/Router';
 
 export class ConfigurationBuilder {
 	private app?: Express;
 	private cardRepository?: CardRepository;
 	private cardController?: CardController;
-	private cardRouter?: CardRouter;
+	private cardRouter?: IRouter;
 
 	withApp(app: Express): ConfigurationBuilder {
 		this.app = app;
@@ -27,10 +27,8 @@ export class ConfigurationBuilder {
 		return this;
 	}
 
-	withCardRouter(router: CardRouter): ConfigurationBuilder {
+	withCardRouter(router: IRouter): ConfigurationBuilder {
 		this.cardRouter = router;
-
-
 		return this;
 	}
 

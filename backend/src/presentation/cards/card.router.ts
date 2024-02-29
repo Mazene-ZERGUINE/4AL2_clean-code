@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { CardController } from './Card.controller';
+import { IRouter } from '../Router';
 
-export class CardRouter {
+export class CardRouter implements IRouter {
 	private readonly _router = Router();
 	private readonly _cardController: CardController;
 
@@ -23,4 +24,3 @@ export class CardRouter {
 			.get('/quizz', this._cardController.getQuizz);
 	}
 }
-
