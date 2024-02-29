@@ -19,16 +19,21 @@ const cardService: CardService = new CardServiceImpl(cardRepository);
 const cardController = new CardController(cardService);
 const cardRouter: IRouter = new CardRouter(cardController);
 
-const app = new ConfigurationBuilder()
-	.withApp(express())
-	.withCardController(cardController)
-	.withCardRepository(cardRepository)
-	.withCardRouter(cardRouter)
-	.useMiddlewares()
-	.useRoutes()
-	.build();
+try {
+	const app = new ConfigurationBuilder()
+		.withApp(express())
+		.withCardController(cardController)
+		.withCardRepository(cardRepository)
+		.withCardRouter(cardRouter)
+		.useMiddlewares()
+		.useRoutes()
+		.build();
 
-app.listen(PORT, () => {
+	app.listen(PORT, () => {
+		// eslint-disable-next-line no-console
+		console.log(`🚀 Server is running at http://${HOST}:${PORT}`);
+	});
+} catch (e) {
 	// eslint-disable-next-line no-console
-	console.log(`🚀 Server is running at http://${HOST}:${PORT}`);
-});
+	console.error(e);
+}
