@@ -62,15 +62,23 @@ export class CardServiceImpl implements CardService {
 	}
 
 	getCardById(cardId: string): Card | undefined {
-		return this._cardRepository.loadAllCards().find((card: Card) => card.cardId.value === cardId);
+		const cards = this._cardRepository.loadAllCards();
+		return cards.find((card: Card) => card.cardId.value == cardId);
 	}
 
 	upgradeCard(card: Card) {
-		console.log(card.category);
+		const categories = Object.values(Category);
+		const currentIndex = categories.indexOf(card.category);
+		if (currentIndex < categories.length) {
+			card.category = categories[currentIndex + 1];
+		} else {
+			card.category = Category.DONE;
+		}
+		this._cardRepository.save(card);
 	}
 
 	downgradeCard(card: Card) {
-		console.log(card.category);
-
+		card.category = Category.FIRST;
+		this._cardRepository.save(card);
 	}
 }

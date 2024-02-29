@@ -28,8 +28,12 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	save(card: Card): void {
-		if (!this.isQuestionUnique(card.question)) {
-			throw new Error();
+		const existingCard = this.registry.get(card.cardId.value);
+
+		if (!existingCard || (existingCard && existingCard.question !== card.question)) {
+			if (!this.isQuestionUnique(card.question)) {
+				throw new Error('question needs to be unique');
+			}
 		}
 
 		this.registry.set(card.cardId.value, card);
