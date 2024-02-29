@@ -1,5 +1,4 @@
 import { Card } from 'src/app/core/models/card.model';
-import '../string.extensions';
 
 export const getCardsByTagsMap = (tags: string[], cards: Card[]): Map<string, Card[]> => {
   const cardByTagMap = new Map<string, Card[]>();
@@ -10,13 +9,17 @@ export const getCardsByTagsMap = (tags: string[], cards: Card[]): Map<string, Ca
       .sort((a, b) => {
         const dateA = a.publishedAt ? parseInt(a.publishedAt) : 0;
         const dateB = b.publishedAt ? parseInt(b.publishedAt) : 0;
-        return dateB - dateA; // Pour trier par ordre décroissant
+        return dateB - dateA;
       });
 
     if (filteredCards.length > 0) {
-      cardByTagMap.set(tag.toFirstCharString(), filteredCards);
+      cardByTagMap.set(toFirstCharString(tag), filteredCards);
     }
   });
 
   return cardByTagMap;
+};
+
+export const toFirstCharString = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };
