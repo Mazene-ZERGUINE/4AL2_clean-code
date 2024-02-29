@@ -42,13 +42,15 @@ export class CardController {
 		}
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQuizz = (request: Request, response: Response): void => {
-		throw new Error('Method not implemented.');
+	getQuiz = (request: Request, response: Response): void => {
+		const date: string = (request.query.date as string) || new Date().toISOString();
+		const quizDate: Date = new Date(date);
+
+		const cards: Card[] = this._cardService.getCardsByDate(quizDate);
+		const cardResponses = cards.map((card: Card) => this.getCardAsResponse(card));
+
+		response.status(200).json(cardResponses);
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	answerCard = (request: Request, response: Response): void => {
-		throw new Error('Method not implemented.');
-	};
+	answerCard = (): void => {};
 }

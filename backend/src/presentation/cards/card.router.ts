@@ -21,6 +21,6 @@ export class CardRouter implements IRouter {
 			.get('/', this._cardController.getAll)
 			.post('/', this._cardController.create)
 			.patch('/:cardId/answer', this._cardController.answerCard)
-			.get('/quizz', this._cardController.getQuizz);
+			.get('/quizz', this._cardController.getQuiz);
 	}
 }
