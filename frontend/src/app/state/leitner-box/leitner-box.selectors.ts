@@ -4,4 +4,6 @@ import { LeitnerBoxState } from './leitner-box.reducer';
 
 export const selectCards = (state: AppState) => state.cards;
 
+export const selectStatus = createSelector(selectCards, (state: LeitnerBoxState) => state.status);
+
 export const selectAllCards = createSelector(selectCards, (state: LeitnerBoxState) => state.cards);

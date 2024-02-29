@@ -12,6 +12,7 @@ export class CardsService {
   }
 
   addCard(newCard: Card): Observable<Card> {
+    console.log(newCard);
     return this.http.post<Card>('http://localhost:3000/cards', newCard);
   }
 }

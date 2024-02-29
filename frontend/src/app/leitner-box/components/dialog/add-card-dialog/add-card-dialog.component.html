@@ -22,6 +22,25 @@
       />
     </mat-form-field>
   </p>
+
+  <p>
+    <mat-form-field>
+      <mat-label>Enter your Tag</mat-label>
+      <input
+        matInput
+        placeholder="Ex: TeamWork"
+        [formControl]="addCardForm.controls.tag"
+        [matAutocomplete]="auto"
+        required
+      />
+
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let tagOptions of filtredTags$ | async" [value]="tagOptions">
+          {{ tagOptions }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </p>
   <div class="action-buttons">
     <button mat-button class="bg-light-black text-white" (click)="onSubmitForm()">
       <span>add new card</span>

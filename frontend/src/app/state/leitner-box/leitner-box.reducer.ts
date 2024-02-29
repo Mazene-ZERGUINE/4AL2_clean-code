@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Card } from 'src/app/core/models/card.model';
 import { CardCategory } from 'src/app/core/models/types/category.enum';
 import * as LeitnerBoxActions from './leitner-box.actions';
+import { v4 as uuidv4 } from 'uuid';
 
 export enum LoadCardsStatus {
   Pending = 'pending',
@@ -26,7 +27,14 @@ export const leitnerBoxReducer = createReducer(
     ...state,
     cards: [
       ...state.cards,
-      { id: Date.now().toString(), question, answer, tag, category: CardCategory.FIRST },
+      {
+        id: uuidv4(),
+        question,
+        answer,
+        tag,
+        category: CardCategory.FIRST,
+        publishedAt: Date.now().toString(),
+      },
     ],
   })),
   on(LeitnerBoxActions.loadCards, (state) => ({ ...state, status: LoadCardsStatus.Loading })),
