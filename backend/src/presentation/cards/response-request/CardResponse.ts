@@ -1,5 +1,5 @@
-import { Card } from '../../../../domain/card/entities/Card';
-import { Category } from '../../../../domain/card/entities/Category';
+import { Card } from '../../../domain/card/entities/Card';
+import { Category } from '../../../domain/card/entities/Category';
 
 export class CardResponse {
 	private readonly id: string;

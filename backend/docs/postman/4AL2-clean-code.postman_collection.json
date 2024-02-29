@@ -41,6 +41,57 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "cards with tags query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}:{{PORT}}/cards?tags=geography,history",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "tags",
+							"value": "geography,history"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "card",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"question\": \"What is pair programming ?\",\n  \"answer\": \"A practice to work in pair on same computer.\",\n  \"tag\": \"Teamwork\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}:{{PORT}}/cards",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

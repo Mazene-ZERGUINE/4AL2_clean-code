@@ -1,19 +1,8 @@
-import { CardRepository } from './CardRepository';
 import { Card } from './entities/Card';
+import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 
-export class CardService {
-	private readonly _cardRepository: CardRepository;
-
-	constructor(cardRepository: CardRepository) {
-		this._cardRepository = cardRepository;
-	}
-
-	// create(card:Card):void {
-	//
-	// 	this._cardRepository.save(card);
-	// }
-
-	getAll(): Card[] {
-		return this._cardRepository.loadAllCards();
-	}
+export interface CardService {
+	getAll(): Card[];
+	getAllByTags(tags: string[]): Card[];
+	create({ question, tag, answer }: CreateCardRequest): Card;
 }
