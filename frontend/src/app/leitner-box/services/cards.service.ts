@@ -7,15 +7,20 @@ import { Card } from 'src/app/core/models/card.model';
 export class CardsService {
   constructor(private http: HttpClient) {}
 
-  private apiUrl = 'http://localhost:8080/cards';
+  private apiUrl = 'http://localhost:8080';
+
+  getDailyCards$(date?: string) {
+    const params = date ? new HttpParams().set('date', date) : undefined;
+    return this.http.get<Card[]>(`${this.apiUrl}/cards/quizz`, { params });
+  }
 
   getCards$(tags?: string[]): Observable<Card[]> {
     const params = tags?.length ? new HttpParams().set('tags', tags.join(',')) : undefined;
-    return this.http.get<Card[]>(this.apiUrl, { params });
+    return this.http.get<Card[]>(`${this.apiUrl}/cards`, { params });
   }
 
   addCard(newCard: Card): Observable<Card> {
     const { question, answer, tag } = newCard;
-    return this.http.post<Card>(this.apiUrl, { question, answer, tag });
+    return this.http.post<Card>(`${this.apiUrl}/cards`, { question, answer, tag });
   }
 }
