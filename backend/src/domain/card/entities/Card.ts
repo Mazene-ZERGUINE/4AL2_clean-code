@@ -32,11 +32,19 @@ export class Card {
 		return this._tag;
 	}
 
-	get category() {
+	get category(): Category {
 		return this._category;
 	}
 
-	set category(value) {
+	set category(value: Category) {
+		if (this.isInvalidCategory(value)) {
+			throw new Error('Category cannot be empty!');
+		}
+
 		this._category = value;
+	}
+
+	private isInvalidCategory(category: Category): boolean {
+		return category == null || (typeof category == 'string' && !category.trim());
 	}
 }
