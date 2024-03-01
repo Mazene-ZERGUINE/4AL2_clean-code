@@ -10,23 +10,25 @@ export class CardUserData {
 	}
 
 	static of(question: unknown, answer: unknown, tag: unknown) {
-		if (!question) {
-			throw new Error('No question provided');
-		}
 		if (typeof question !== 'string') {
 			throw new Error('Invalid question type');
 		}
-
-		if (!answer) {
-			throw new Error('No answer provided');
+		const trimmedQuestion = question.trim();
+		if (!trimmedQuestion) {
+			throw new Error('No question provided');
 		}
+
 		if (typeof answer !== 'string') {
 			throw new Error('Invalid answer type');
 		}
+		const trimmedAnswer = answer.trim();
+		if (!trimmedAnswer) {
+			throw new Error('No answer provided');
+		}
 
-		const tagToProvide: string = typeof tag == 'string' ? tag.trim() : 'No tag';
+		const trimmedTag: string = typeof tag == 'string' && tag.trim() ? tag.trim() : 'No tag';
 
-		return new CardUserData(question.trim(), answer.trim(), tagToProvide);
+		return new CardUserData(trimmedQuestion, trimmedAnswer, trimmedTag);
 	}
 
 	get question(): string {
