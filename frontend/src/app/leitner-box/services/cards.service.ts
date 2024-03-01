@@ -14,7 +14,7 @@ export interface CardPayload {
 export class CardsService {
   constructor(private http: HttpClient) {}
 
-  readonly apiUrl = environment.baseUrl;
+  private readonly apiUrl = environment.baseUrl;
 
   getDailyCards$(date?: string): Observable<Card[]> {
     const params = date ? new HttpParams().set('date', date) : undefined;
