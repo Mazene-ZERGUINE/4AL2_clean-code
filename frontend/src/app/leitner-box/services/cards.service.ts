@@ -16,7 +16,6 @@ export class CardsService {
 
   addCard(newCard: Card): Observable<Card> {
     const { question, answer, tag } = newCard;
-    console.log(newCard);
     return this.http.post<Card>(this.apiUrl, { question, answer, tag });
   }
 }
