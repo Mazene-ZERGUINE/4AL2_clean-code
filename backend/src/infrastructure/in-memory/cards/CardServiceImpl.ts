@@ -32,7 +32,7 @@ export class CardServiceImpl implements CardService {
 	getCardsByDate(date: Date): Card[] {
 		const allCards = this._cardRepository.loadAllCards();
 
-		const learningStartDate: Date = new Date('2024-02-12');
+		const learningStartDate: Date = new Date('2024-02-25');
 		const frequency = differenceInDays(date, learningStartDate);
 
 		const todayCards: Card[] = [];
@@ -40,11 +40,11 @@ export class CardServiceImpl implements CardService {
 		const categoryOrder = {
 			[Category.FIRST]: 1,
 			[Category.SECOND]: 2,
-			[Category.THIRD]: 3,
-			[Category.FORTH]: 4,
-			[Category.FIFTH]: 5,
-			[Category.SIXTH]: 6,
-			[Category.SEVENTH]: 7,
+			[Category.THIRD]: 4,
+			[Category.FORTH]: 8,
+			[Category.FIFTH]: 16,
+			[Category.SIXTH]: 32,
+			[Category.SEVENTH]: 64,
 		};
 
 		allCards.forEach((card: Card) => {
@@ -58,6 +58,27 @@ export class CardServiceImpl implements CardService {
 	}
 
 	private isTodayQuizzCard(order: number, frequency: number): boolean {
-		return order !== undefined && frequency % Math.pow(2, order) === 0;
+		return order !== undefined && frequency % order === 0;
+	}
+
+	getCardById(cardId: string): Card | undefined {
+		const cards = this._cardRepository.loadAllCards();
+		return cards.find((card: Card) => card.cardId.value == cardId);
+	}
+
+	upgradeCard(card: Card) {
+		const categories = Object.values(Category);
+		const currentIndex = categories.indexOf(card.category);
+		if (currentIndex < categories.length - 1) {
+			card.category = categories[currentIndex + 1];
+		} else {
+			card.category = Category.DONE;
+		}
+		this._cardRepository.save(card);
+	}
+
+	downgradeCard(card: Card) {
+		card.category = Category.FIRST;
+		this._cardRepository.save(card);
 	}
 }

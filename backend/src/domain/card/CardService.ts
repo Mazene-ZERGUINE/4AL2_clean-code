@@ -6,7 +6,14 @@ export interface CardService {
 
 	getAllByTags(tags: string[]): Card[];
 
+
 	create({question, tag, answer}: CreateCardRequest): Card;
 
 	getCardsByDate(date: Date): Card[] ;
+
+	getCardById(cardId: string): Card | undefined;
+
+	upgradeCard(card: Card): void;
+
+	downgradeCard(card: Card): void;
 }

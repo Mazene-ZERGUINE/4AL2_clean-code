@@ -28,10 +28,13 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	save(card: Card): void {
-		if (!this.isQuestionUnique(card.question)) {
-			throw new Error();
-		}
+		const existingCard = this.registry.get(card.cardId.value);
 
+		if (this.isExistingCard(existingCard as Card, card)) {
+			if (!this.isQuestionUnique(card.question)) {
+				throw new Error('question needs to be unique');
+			}
+		}
 		this.registry.set(card.cardId.value, card);
 	}
 
@@ -43,6 +46,10 @@ export class InMemoryCardRepository implements CardRepository {
 		}
 
 		return true;
+	}
+
+	private isExistingCard(existingCard: Card, card: Card): boolean {
+		return !existingCard || (existingCard && existingCard.question !== card.question);
 	}
 
 	private setRegistryDefaultData(): void {
