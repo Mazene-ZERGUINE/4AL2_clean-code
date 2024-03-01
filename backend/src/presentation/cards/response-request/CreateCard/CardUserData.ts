@@ -9,12 +9,26 @@ export class CardUserData {
 		this._tag = tag;
 	}
 
-	static of(question: string, answer: string, tag: string) {
+	static of(question: unknown, answer: unknown, tag: unknown) {
 		if (!question) {
 			throw new Error('No question provided');
 		}
+		if (typeof question !== 'string') {
+			throw new Error('Invalid question type');
+		}
+
 		if (!answer) {
 			throw new Error('No answer provided');
+		}
+		if (typeof answer !== 'string') {
+			throw new Error('Invalid answer type');
+		}
+
+		if (!tag) {
+			throw new Error('No tag provided');
+		}
+		if (typeof tag !== 'string') {
+			throw new Error('Invalid tag type');
 		}
 
 		return new CardUserData(question, answer, tag);

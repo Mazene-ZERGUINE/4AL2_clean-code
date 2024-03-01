@@ -30,7 +30,7 @@ export class CardController {
 		const { question, answer, tag } = request.body;
 
 		try {
-			const cardUserData = CardUserData.of(question, answer, tag ?? 'No tag');
+			const cardUserData = CardUserData.of(question, answer, tag);
 			const createCardRequest = new CreateCardRequest(cardUserData);
 
 			const card = this._cardService.create(createCardRequest);
