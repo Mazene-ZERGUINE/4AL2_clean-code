@@ -2,9 +2,7 @@
   <div class="m-2 dashboard d-flex flex-column">
     <h1>Hello Zakarya ! Are you ready to study ?</h1>
     <ng-container *ngIf="(gettingListStatus$ | async) === laodCardStatus.Success; else loading">
-      <h3 *ngIf="onlyFirstCategoryCard$ | async; let onlyFirstCategoryCard">
-        Today {{ onlyFirstCategoryCard.length }} cards to study.
-      </h3>
+      <h3>Today {{ cards.length }} cards to study.</h3>
 
       <button mat-button class="bg-light-black text-white mb-4 w-25" (click)="handleClickAddList()">
         <span>add new list</span>
