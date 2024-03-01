@@ -67,7 +67,7 @@ export class CardServiceImpl implements CardService {
 		return cards.find((card: Card) => card.cardId.value == cardId);
 	}
 
-	upgradeCard(card: Card) {
+	upgradeCard(card: Card): void {
 		const categories = Object.values(Category);
 		const currentIndex = categories.indexOf(card.category);
 		if (currentIndex < categories.length - 1) {
@@ -78,7 +78,7 @@ export class CardServiceImpl implements CardService {
 		this._cardRepository.save(card);
 	}
 
-	downgradeCard(card: Card) {
+	downgradeCard(card: Card): void {
 		card.category = Category.FIRST;
 		this._cardRepository.save(card);
 	}
