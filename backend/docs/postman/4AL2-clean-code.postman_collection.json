@@ -148,7 +148,7 @@
 			"response": []
 		},
 		{
-			"name": "card sans tag (ultra bad request)",
+			"name": "card (ultra bad request)",
 			"request": {
 				"method": "POST",
 				"header": [],
