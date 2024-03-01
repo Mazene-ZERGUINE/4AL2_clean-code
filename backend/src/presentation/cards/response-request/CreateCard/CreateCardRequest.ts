@@ -1,14 +1,14 @@
-import { CreateCardRequestArguments } from './CreateCardRequestArguments';
+import { CardUserData } from './CardUserData';
 
 export class CreateCardRequest {
 	private readonly _question: string;
-	private readonly _tag: string;
 	private readonly _answer: string;
+	private readonly _tag: string;
 
-	constructor({ question, tag, answer }: CreateCardRequestArguments) {
+	constructor({ question, tag, answer }: CardUserData) {
 		this._question = question;
-		this._tag = tag;
 		this._answer = answer;
+		this._tag = tag;
 	}
 
 	get question(): string {

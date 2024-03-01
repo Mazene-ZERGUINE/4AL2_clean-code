@@ -4,7 +4,7 @@ import { CardService } from '../../domain/card/CardService';
 import { CardResponse } from './response-request/CardResponse';
 import { Card } from '../../domain/card/entities/Card';
 import { CreateCardRequest } from './response-request/CreateCard/CreateCardRequest';
-import { CreateCardRequestArguments } from './response-request/CreateCard/CreateCardRequestArguments';
+import { CardUserData } from './response-request/CreateCard/CardUserData';
 
 export class CardController {
 	private readonly _cardService: CardService;
@@ -30,8 +30,8 @@ export class CardController {
 		const { question, answer, tag } = request.body;
 
 		try {
-			const createCardRequestParameters = CreateCardRequestArguments.of(question, tag, answer);
-			const createCardRequest = new CreateCardRequest(createCardRequestParameters);
+			const cardUserData = CardUserData.of(question, answer, tag ?? 'No tag');
+			const createCardRequest = new CreateCardRequest(cardUserData);
 
 			const card = this._cardService.create(createCardRequest);
 			const cardResponse = this.getCardAsResponse(card);

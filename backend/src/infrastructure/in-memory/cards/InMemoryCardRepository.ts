@@ -58,6 +58,7 @@ export class InMemoryCardRepository implements CardRepository {
 			'What is the capital of France?',
 			'Paris',
 			'geography',
+			Category.FIRST,
 		);
 		const geographyCard2 = new Card(
 			new CardId(randomUUID()),

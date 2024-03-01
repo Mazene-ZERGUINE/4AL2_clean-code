@@ -8,13 +8,7 @@ export class Card {
 	private readonly _tag: string;
 	private _category: Category;
 
-	constructor(
-		cardId: CardId,
-		question: string,
-		answer: string,
-		tag: string,
-		category = Category.FIRST,
-	) {
+	constructor(cardId: CardId, question: string, answer: string, tag: string, category: Category) {
 		this._cardId = cardId;
 		this._question = question;
 		this._answer = answer;
@@ -34,7 +28,7 @@ export class Card {
 		return this._answer;
 	}
 
-	get tag() {
+	get tag(): string {
 		return this._tag;
 	}
 

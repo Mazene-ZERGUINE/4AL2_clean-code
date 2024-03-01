@@ -23,7 +23,8 @@ export class CardServiceImpl implements CardService {
 	}
 
 	create({ question, tag, answer }: CreateCardRequest): Card {
-		const card = new Card(new CardId(randomUUID()), question, answer, tag);
+		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
+
 		this._cardRepository.save(card);
 
 		return card;
