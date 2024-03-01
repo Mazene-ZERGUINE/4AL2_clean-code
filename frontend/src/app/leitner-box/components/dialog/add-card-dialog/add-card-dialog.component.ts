@@ -8,6 +8,7 @@ import {
 } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { map, startWith } from 'rxjs';
+import { CardPayload } from 'src/app/leitner-box/services/cards.service';
 import { MoreActionService } from 'src/app/shared/services/utils/more-actions.service';
 import { addCard } from 'src/app/state/leitner-box/leitner-box.actions';
 
@@ -63,7 +64,8 @@ export class AddCardDialogComponent {
     const isAddCardFormValid = question && answer && effectiveTag;
 
     if (isAddCardFormValid) {
-      this.store.dispatch(addCard({ question, answer, tag: effectiveTag }));
+      const newCard: CardPayload = { question, answer, tag: effectiveTag };
+      this.store.dispatch(addCard({ newCard }));
       this._showSnackBar(effectiveTag);
     }
 

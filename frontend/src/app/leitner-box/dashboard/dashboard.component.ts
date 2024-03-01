@@ -5,9 +5,13 @@ import { Card } from 'src/app/core/models/card.model';
 import { MoreActionService } from 'src/app/shared/services/utils/more-actions.service';
 import { CardKey } from 'src/app/shared/variables/enum';
 import { AppState } from 'src/app/state/app.state';
-import { loadCards } from 'src/app/state/leitner-box/leitner-box.actions';
+import { loadCards, loadDailyCards } from 'src/app/state/leitner-box/leitner-box.actions';
 import { LoadCardsStatus } from 'src/app/state/leitner-box/leitner-box.reducer';
-import { selectAllCards, selectStatus } from 'src/app/state/leitner-box/leitner-box.selectors';
+import {
+  selectAllCards,
+  selectDailyCards,
+  selectStatus,
+} from 'src/app/state/leitner-box/leitner-box.selectors';
 import { getCardsByTagsMap } from 'src/app/utils/card-adapter/card-adapter.utils';
 import { getDistinctValuesFromCardArray } from 'src/app/utils/utils';
 import { CardsService } from '../services/cards.service';
@@ -28,6 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.state.dispatch(loadCards());
+    this.state.dispatch(loadDailyCards());
   }
 
   readonly destroy$ = new Subject<boolean>();
@@ -36,9 +41,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   readonly gettingListStatus$ = this.state.select(selectStatus);
 
-  readonly allCards$: Observable<Card[]> = this.cardService.getCards$().pipe(shareReplay(1));
+  readonly allCards$: Observable<Card[]> = this.state.select(selectAllCards);
 
-  readonly dailyCards$: Observable<Card[]> = this.state.select(selectAllCards).pipe(shareReplay(1));
+  readonly dailyCards$: Observable<Card[]> = this.state.select(selectDailyCards);
 
   readonly distinctCardsTag$: Observable<string[]> = this.allCards$.pipe(
     map((cards) => getDistinctValuesFromCardArray(cards, CardKey.Tag)),

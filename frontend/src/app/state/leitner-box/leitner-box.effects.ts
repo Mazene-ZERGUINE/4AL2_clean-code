@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { CardsService } from 'src/app/leitner-box/services/cards.service';
 import { AppState } from '../app.state';
 import {
@@ -10,6 +10,7 @@ import {
   answerCard,
   loadCards,
   loadCardsSuccess,
+  loadDailyCards,
 } from './leitner-box.actions';
 
 @Injectable()
@@ -20,11 +21,20 @@ export class LeitnerBoxEffects {
     private cardService: CardsService,
   ) {}
 
+  loadDailyCards$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadDailyCards),
+      switchMap(() =>
+        this.cardService.getDailyCards$().pipe(map((cards) => loadCardsSuccess({ cards }))),
+      ),
+    ),
+  );
+
   loadCards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCards),
       switchMap(() =>
-        this.cardService.getDailyCards$().pipe(map((cards) => loadCardsSuccess({ cards }))),
+        this.cardService.getCards$().pipe(map((cards) => loadCardsSuccess({ cards }))),
       ),
     ),
   );
@@ -32,11 +42,7 @@ export class LeitnerBoxEffects {
   addCard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addCard),
-      switchMap((action) =>
-        this.cardService
-          .addCard({ question: action.question, answer: action.answer, tag: action.tag })
-          .pipe(map((fullCard) => addCardSuccess({ card: fullCard }))),
-      ),
+      switchMap((action) => this.cardService.addCard(action.newCard).pipe(map(() => loadCards()))),
     ),
   );
 
@@ -44,7 +50,9 @@ export class LeitnerBoxEffects {
     this.actions$.pipe(
       ofType(answerCard),
       switchMap((action) =>
-        this.cardService.answerCard(action.cardId, action.isValid).pipe(map(() => loadCards())),
+        this.cardService
+          .answerCard(action.cardId, action.isValid)
+          .pipe(map(() => loadDailyCards())),
       ),
     ),
   );
