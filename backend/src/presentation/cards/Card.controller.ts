@@ -59,7 +59,7 @@ export class CardController {
 		const answeredCard = this._cardService.getCardById(cardId);
 
 		if (answeredCard === undefined) {
-			response.status(404).json('card not found');
+			response.status(404).send('card not found');
 		}
 
 		try {
@@ -67,9 +67,9 @@ export class CardController {
 				? this._cardService.upgradeCard(answeredCard as Card)
 				: this._cardService.downgradeCard(answeredCard as Card);
 
-			response.status(204).json('Answer has been taken into account');
+			response.status(204).send('Answer has been taken into account');
 		} catch (e) {
-			response.status(400);
+			response.status(400).send('bad request');
 		}
 	};
 }
