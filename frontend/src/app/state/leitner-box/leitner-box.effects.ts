@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { CardsService } from 'src/app/leitner-box/services/cards.service';
 import { AppState } from '../app.state';
 import {
   addCard,
-  addCardSuccess,
   answerCard,
   loadCards,
   loadCardsSuccess,

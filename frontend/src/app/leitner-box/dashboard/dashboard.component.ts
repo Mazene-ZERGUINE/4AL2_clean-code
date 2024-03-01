@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, map, shareReplay, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { Card } from 'src/app/core/models/card.model';
 import { MoreActionService } from 'src/app/shared/services/utils/more-actions.service';
 import { CardKey } from 'src/app/shared/variables/enum';
