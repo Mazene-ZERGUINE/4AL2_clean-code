@@ -69,7 +69,7 @@ export class CardServiceImpl implements CardService {
 	upgradeCard(card: Card) {
 		const categories = Object.values(Category);
 		const currentIndex = categories.indexOf(card.category);
-		if (currentIndex < categories.length) {
+		if (currentIndex < categories.length - 1) {
 			card.category = categories[currentIndex + 1];
 		} else {
 			card.category = Category.DONE;
