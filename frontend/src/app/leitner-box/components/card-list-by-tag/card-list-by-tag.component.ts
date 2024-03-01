@@ -41,7 +41,9 @@ export class CardListByTagComponent {
   handleClickShowAllCards() {
     if (this.cards) {
       this.moreActionService.openShowAllCardsDialog$(
-        this.cards.filter((card) => card.tag === this.cardsByTag?.key),
+        this.cards.filter(
+          (card) => card.tag.toLowerCase() === this.cardsByTag?.key.toLocaleLowerCase(),
+        ),
       );
     }
   }

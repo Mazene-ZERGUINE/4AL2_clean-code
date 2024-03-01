@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { Store } from '@ngrx/store';
 import { Observable, Subject, combineLatest, map, shareReplay, takeUntil } from 'rxjs';
 import { Card } from 'src/app/core/models/card.model';
-import { CardCategory } from 'src/app/core/models/types/category.enum';
 import { MoreActionService } from 'src/app/shared/services/utils/more-actions.service';
 import { CardKey } from 'src/app/shared/variables/enum';
 import { AppState } from 'src/app/state/app.state';
@@ -37,18 +36,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   readonly allCards$: Observable<Card[]> = this.state.select(selectAllCards).pipe(shareReplay(1));
 
-  readonly onlyFirstCategoryCard$ = this.allCards$.pipe(
-    map((cards) => cards.filter((card) => card.category === CardCategory.FIRST)),
-  );
-
   readonly distinctCardsTag$ = this.allCards$.pipe(
     map((cards) => getDistinctValuesFromCardArray(cards, CardKey.Tag)),
   );
 
-  readonly cardsByTag$ = combineLatest([this.distinctCardsTag$, this.onlyFirstCategoryCard$]).pipe(
-    map(([distinctCardsTag, onlyFirstCategoryCards]) =>
-      getCardsByTagsMap(distinctCardsTag, onlyFirstCategoryCards),
-    ),
+  readonly cardsByTag$ = combineLatest([this.distinctCardsTag$, this.allCards$]).pipe(
+    map(([distinctCardsTag, allCards]) => getCardsByTagsMap(distinctCardsTag, allCards)),
   );
 
   handleClickAddList(): void {

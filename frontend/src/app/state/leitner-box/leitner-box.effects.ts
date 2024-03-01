@@ -19,7 +19,7 @@ export class LeitnerBoxEffects {
     this.actions$.pipe(
       ofType(loadCards),
       switchMap(() =>
-        this.cardService.getCards$().pipe(map((cards) => loadCardsSuccess({ cards }))),
+        this.cardService.getDailyCards$().pipe(map((cards) => loadCardsSuccess({ cards }))),
       ),
     ),
   );
