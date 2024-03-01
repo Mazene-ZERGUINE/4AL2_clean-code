@@ -7,3 +7,8 @@ export const selectCards = (state: AppState) => state.cards;
 export const selectStatus = createSelector(selectCards, (state: LeitnerBoxState) => state.status);
 
 export const selectAllCards = createSelector(selectCards, (state: LeitnerBoxState) => state.cards);
+
+export const selectDailyCards = createSelector(
+  selectCards,
+  (state: LeitnerBoxState) => state.cards,
+);

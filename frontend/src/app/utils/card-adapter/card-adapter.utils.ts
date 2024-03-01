@@ -4,13 +4,7 @@ export const getCardsByTagsMap = (tags: string[], cards: Card[]): Map<string, Ca
   const cardByTagMap = new Map<string, Card[]>();
 
   tags.forEach((tag) => {
-    const filteredCards = cards
-      .filter((card) => card.tag.toLowerCase() === tag.toLowerCase())
-      .sort((a, b) => {
-        const dateA = a.publishedAt ? parseInt(a.publishedAt) : 0;
-        const dateB = b.publishedAt ? parseInt(b.publishedAt) : 0;
-        return dateB - dateA;
-      });
+    const filteredCards = cards.filter((card) => card.tag.toLowerCase() === tag.toLowerCase());
 
     if (filteredCards.length > 0) {
       cardByTagMap.set(toFirstCharString(tag), filteredCards);

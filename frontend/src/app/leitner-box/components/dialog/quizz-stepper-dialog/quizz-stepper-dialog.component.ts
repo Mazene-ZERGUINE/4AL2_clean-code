@@ -3,9 +3,10 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Card } from 'src/app/core/models/card.model';
-import { CardCategory } from 'src/app/core/models/types/category.enum';
+import { answerCard } from 'src/app/state/leitner-box/leitner-box.actions';
 
 export enum CustomStepperOrientation {
   Horizontal = 'horizontal',
@@ -22,18 +23,21 @@ export class QuizzStepperDialogComponent {
     public dialogRef: MatDialogRef<QuizzStepperDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: { cards: Card[] },
     private breakpointObserver: BreakpointObserver,
+    private store: Store,
   ) {}
 
   private validationMessageSource = new BehaviorSubject<string>('');
   validationMessage$ = this.validationMessageSource.asObservable();
 
+  readonly hasAnswered = new BehaviorSubject<boolean>(false);
+
+  readonly isCorrectAnswer = new BehaviorSubject<boolean>(false);
+
   readonly answerFormGroup = new FormGroup({
     answer: new FormControl<string | null>(null, Validators.required),
   });
 
-  readonly cardsToStudy = this.dialogData.cards.filter(
-    (card) => card.category === CardCategory.FIRST,
-  );
+  readonly cardsToStudy = this.dialogData.cards;
 
   readonly stepperOrientation$: Observable<StepperOrientation> = this.breakpointObserver
     .observe([Breakpoints.Medium])
@@ -45,16 +49,30 @@ export class QuizzStepperDialogComponent {
       ),
     );
 
-  handleIsCorrectAnswer(cardAnswer: string) {
-    const userAnswer = this.answerFormGroup.get('answer')?.value;
-    if (userAnswer === cardAnswer) {
-      this.validationMessageSource.next('Bonne réponse!');
-    } else {
-      this.validationMessageSource.next(`Mauvaise réponse! La bonne réponse était : ${cardAnswer}`);
-    }
+  handleIsCorrectAnswer(cardId: string, cardAnswer: string): void {
+    const userAnswer = this.answerFormGroup.value.answer?.trim().toLowerCase();
+    const isValidAnswer = userAnswer === cardAnswer.trim().toLowerCase();
+
+    this.store.dispatch(answerCard({ cardId, isValid: isValidAnswer }));
+    this.validationMessageSource.next(
+      isValidAnswer ? 'Bonne réponse!' : `Mauvaise réponse! La bonne réponse était : ${cardAnswer}`,
+    );
+
+    this.answerFormGroup.disable();
+    this.hasAnswered.next(true);
+    this.isCorrectAnswer.next(isValidAnswer);
   }
 
-  clearPreviousAnswer() {
+  clearPreviousAnswer(): void {
     this.validationMessageSource.next('');
+    this.answerFormGroup.reset();
+    this.answerFormGroup.enable();
+    this.hasAnswered.next(false);
+    this.isCorrectAnswer.next(false);
+  }
+
+  forceValidation(cardId: string): void {
+    this.store.dispatch(answerCard({ cardId, isValid: true }));
+    this.clearPreviousAnswer();
   }
 }

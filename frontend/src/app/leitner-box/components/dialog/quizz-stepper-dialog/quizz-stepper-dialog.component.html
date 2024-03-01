@@ -1,25 +1,44 @@
 <mat-stepper linear [orientation]="(stepperOrientation$ | async)!">
-  <mat-step [stepControl]="answerFormGroup" [editable]="false" *ngFor="let card of cardsToStudy">
+  <mat-step
+    [stepControl]="answerFormGroup"
+    [editable]="false"
+    [completed]="false"
+    *ngFor="let card of cardsToStudy"
+  >
     <app-card-list-item [card]="card"></app-card-list-item>
     <form>
-      <ng-template matStepLabel> </ng-template>
       <mat-form-field [formGroup]="answerFormGroup" appearance="fill">
         <mat-label>Answer:</mat-label>
         <input matInput placeholder="Answer:" formControlName="answer" required />
       </mat-form-field>
       <p *ngIf="validationMessage$ | async as validationMessage">{{ validationMessage }}</p>
       <div>
-        <button mat-button (click)="handleIsCorrectAnswer(card.answer)">Verifier ma reponse</button>
-        <button mat-button matStepperNext (click)="clearPreviousAnswer()">Next</button>
+        <button
+          mat-button
+          [disabled]="hasAnswered.value"
+          (click)="handleIsCorrectAnswer(card.id!, card.answer)"
+        >
+          Verifier ma reponse
+        </button>
+        <button *ngIf="hasAnswered.value" mat-button matStepperNext (click)="clearPreviousAnswer()">
+          Next
+        </button>
+        <button
+          *ngIf="hasAnswered.value && !isCorrectAnswer.value"
+          mat-button
+          matStepperNext
+          (click)="forceValidation(card.id!)"
+        >
+          Typing error
+        </button>
       </div>
     </form>
   </mat-step>
-
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <!-- <button mat-button matStepperPrevious>Back</button> -->
-    </div>
+    <ng-template matStepLabel>No more cards</ng-template>
+    <p>No more cards</p>
+    <!-- <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div> -->
   </mat-step>
 </mat-stepper>

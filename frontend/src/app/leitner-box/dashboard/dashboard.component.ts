@@ -1,15 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, map, shareReplay, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 import { Card } from 'src/app/core/models/card.model';
 import { MoreActionService } from 'src/app/shared/services/utils/more-actions.service';
 import { CardKey } from 'src/app/shared/variables/enum';
 import { AppState } from 'src/app/state/app.state';
-import { loadCards } from 'src/app/state/leitner-box/leitner-box.actions';
+import { loadCards, loadDailyCards } from 'src/app/state/leitner-box/leitner-box.actions';
 import { LoadCardsStatus } from 'src/app/state/leitner-box/leitner-box.reducer';
-import { selectAllCards, selectStatus } from 'src/app/state/leitner-box/leitner-box.selectors';
+import {
+  selectAllCards,
+  selectDailyCards,
+  selectStatus,
+} from 'src/app/state/leitner-box/leitner-box.selectors';
 import { getCardsByTagsMap } from 'src/app/utils/card-adapter/card-adapter.utils';
 import { getDistinctValuesFromCardArray } from 'src/app/utils/utils';
+import { CardsService } from '../services/cards.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,10 +27,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private state: Store<AppState>,
     private moreActionService: MoreActionService,
+    private cardService: CardsService,
   ) {}
 
   ngOnInit(): void {
     this.state.dispatch(loadCards());
+    this.state.dispatch(loadDailyCards());
   }
 
   readonly destroy$ = new Subject<boolean>();
@@ -34,15 +41,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   readonly gettingListStatus$ = this.state.select(selectStatus);
 
-  readonly allCards$: Observable<Card[]> = this.state.select(selectAllCards).pipe(shareReplay(1));
+  readonly allCards$: Observable<Card[]> = this.state.select(selectAllCards);
 
-  readonly distinctCardsTag$ = this.allCards$.pipe(
+  readonly dailyCards$: Observable<Card[]> = this.state.select(selectDailyCards);
+
+  readonly distinctCardsTag$: Observable<string[]> = this.allCards$.pipe(
     map((cards) => getDistinctValuesFromCardArray(cards, CardKey.Tag)),
   );
 
-  readonly cardsByTag$ = combineLatest([this.distinctCardsTag$, this.allCards$]).pipe(
-    map(([distinctCardsTag, allCards]) => getCardsByTagsMap(distinctCardsTag, allCards)),
-  );
+  readonly cardsByTag$: Observable<Map<string, Card[]>> = combineLatest([
+    this.distinctCardsTag$,
+    this.dailyCards$,
+  ]).pipe(map(([distinctCardsTag, allCards]) => getCardsByTagsMap(distinctCardsTag, allCards)));
 
   handleClickAddList(): void {
     let availableTags: string[] = [];
