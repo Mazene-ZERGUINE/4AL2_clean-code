@@ -154,7 +154,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"question\": 12,\n  \"answer\": null,\n  \"tag\": 34\n}",
+					"raw": "{\n  \"question\": 12,\n  \"answer\": null\n}",
 					"options": {
 						"raw": {
 							"language": "json"

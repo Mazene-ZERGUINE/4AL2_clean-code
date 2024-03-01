@@ -24,14 +24,9 @@ export class CardUserData {
 			throw new Error('Invalid answer type');
 		}
 
-		if (!tag) {
-			throw new Error('No tag provided');
-		}
-		if (typeof tag !== 'string') {
-			throw new Error('Invalid tag type');
-		}
+		const tagToProvide: string = typeof tag == 'string' ? tag.trim() : 'No tag';
 
-		return new CardUserData(question.trim(), answer.trim(), tag.trim());
+		return new CardUserData(question.trim(), answer.trim(), tagToProvide);
 	}
 
 	get question(): string {
