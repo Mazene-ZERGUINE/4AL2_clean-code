@@ -14,7 +14,8 @@ export class CardController {
 	}
 
 	getAll = (request: Request, response: Response): void => {
-		const tags: string[] = request.query.tags ? (request.query.tags as string).split(',') : [];
+		const tags: string[] =
+			typeof request.query.tags == 'string' ? (request.query.tags as string).split(',') : [];
 		const cards =
 			tags.length == 0 ? this._cardService.getAll() : this._cardService.getAllByTags(tags);
 		const cardResponses: CardResponse[] = cards.map((card) => this.getCardAsResponse(card));

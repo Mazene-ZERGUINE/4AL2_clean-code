@@ -31,7 +31,7 @@ export class CardUserData {
 			throw new Error('Invalid tag type');
 		}
 
-		return new CardUserData(question, answer, tag);
+		return new CardUserData(question.trim(), answer.trim(), tag.trim());
 	}
 
 	get question(): string {
