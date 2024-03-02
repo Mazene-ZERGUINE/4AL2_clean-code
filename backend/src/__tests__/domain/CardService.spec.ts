@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import clearAllMocks = jest.clearAllMocks;
 import Mocked = jest.Mocked;
 import fn = jest.fn;
 
@@ -172,9 +173,59 @@ describe('CardServiceImpl', () => {
 		expect(cardRepositoryMock.loadCardById).toHaveBeenCalledWith(cardId);
 	});
 
-	// TODO
-	xit("should call the repository's 'save()' when upgrading a card", () => {});
+	describe('Card upgrade functionality', () => {
+		const categories = Object.values(Category);
 
-	// TODO
-	xit("should call the repository's 'save()' when downgrading a card", () => {});
+		categories.forEach((currentCategory, index) => {
+			if (currentCategory === Category.DONE) {
+				return;
+			}
+
+			const nextCategory = categories[index + 1] ?? Category.DONE;
+
+			it(`should upgrade a card with category ${currentCategory} to ${nextCategory} when answering a question correctly`, async () => {
+				// Arrange
+				const card = new Card(new CardId(randomUUID()), 'q', 'a', 't', currentCategory);
+				cardRepositoryMock.loadCardById.mockResolvedValue(card);
+
+				// Act
+				await cardService.upgradeCard(card);
+
+				// Assert
+				expect(cardRepositoryMock.save).toHaveBeenCalledWith(
+					expect.objectContaining({ category: nextCategory }),
+				);
+
+				jest.clearAllMocks();
+			});
+		});
+	});
+
+	describe('Card downgrading functionality', () => {
+		Object.values(Category).forEach((currentCategory) => {
+			if (currentCategory === Category.DONE) {
+				return;
+			}
+
+			it(`should downgrade a card from ${currentCategory} to FIRST, regardless of its initial category`, async () => {
+				// Arrange
+				const card = new Card(new CardId(randomUUID()), 'q', 'a', 't', currentCategory);
+				cardRepositoryMock.loadCardById.mockResolvedValue(card);
+
+				// Act
+				await cardService.downgradeCard(card);
+
+				// Assert
+				expect(cardRepositoryMock.save).toHaveBeenCalledWith(
+					expect.objectContaining({ category: Category.FIRST }),
+				);
+
+				clearAllMocks();
+			});
+		});
+	});
+
+	afterEach(() => {
+		clearAllMocks();
+	});
 });

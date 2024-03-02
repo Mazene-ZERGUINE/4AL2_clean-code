@@ -68,19 +68,34 @@ export class CardServiceImpl implements CardService {
 	}
 
 	async upgradeCard(card: Card): Promise<void> {
+		const upgradedCard = new Card(
+			new CardId(card.cardId.value),
+			card.question,
+			card.answer,
+			card.tag,
+			card.category,
+		);
+
 		const categories = Object.values(Category);
 		const currentIndex = categories.indexOf(card.category);
 		if (currentIndex < categories.length - 1) {
-			card.category = categories[currentIndex + 1];
+			upgradedCard.category = categories[currentIndex + 1];
 		} else {
-			card.category = Category.DONE;
+			upgradedCard.category = Category.DONE;
 		}
 
-		await this._cardRepository.save(card);
+		await this._cardRepository.save(upgradedCard);
 	}
 
 	async downgradeCard(card: Card): Promise<void> {
-		card.category = Category.FIRST;
-		await this._cardRepository.save(card);
+		const downgradedCard = new Card(
+			new CardId(card.cardId.value),
+			card.question,
+			card.answer,
+			card.tag,
+			Category.FIRST,
+		);
+
+		await this._cardRepository.save(downgradedCard);
 	}
 }
