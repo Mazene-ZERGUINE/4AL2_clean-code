@@ -12,9 +12,8 @@ import {
   selectDailyCards,
   selectStatus,
 } from 'src/app/state/leitner-box/leitner-box.selectors';
-import { getCardsByTagsMap } from 'src/app/utils/card-adapter/card-adapter.utils';
-import { getDistinctValuesFromCardArray } from 'src/app/utils/utils';
 import { CardsService } from '../services/cards.service';
+import { CardAdapterUtils } from 'src/app/utils/card-adapter/card-adapter.utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,13 +45,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly dailyCards$: Observable<Card[]> = this.state.select(selectDailyCards);
 
   readonly distinctCardsTag$: Observable<string[]> = this.allCards$.pipe(
-    map((cards) => getDistinctValuesFromCardArray(cards, CardKey.Tag)),
+    map((cards) => CardAdapterUtils.getDistinctValuesFromCardArray(cards, CardKey.Tag)),
   );
 
   readonly cardsByTag$: Observable<Map<string, Card[]>> = combineLatest([
     this.distinctCardsTag$,
     this.dailyCards$,
-  ]).pipe(map(([distinctCardsTag, allCards]) => getCardsByTagsMap(distinctCardsTag, allCards)));
+  ]).pipe(
+    map(([distinctCardsTag, allCards]) =>
+      CardAdapterUtils.getCardsByTagsMap(distinctCardsTag, allCards),
+    ),
+  );
 
   handleClickAddList(): void {
     let availableTags: string[] = [];
