@@ -2,18 +2,17 @@ import { Card } from './entities/Card';
 import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 
 export interface CardService {
-	getAll(): Card[];
+	create({ question, tag, answer }: CreateCardRequest): Promise<Card>;
 
-	getAllByTags(tags: string[]): Card[];
+	getAll(): Promise<Card[]>;
 
+	getAllByDate(date: Date): Promise<Card[]>;
 
-	create({question, tag, answer}: CreateCardRequest): Card;
+	getAllByTags(tags: string[]): Promise<Card[]>;
 
-	getCardsByDate(date: Date): Card[] ;
+	getById(cardId: string): Promise<Card | undefined>;
 
-	getCardById(cardId: string): Card | undefined;
+	upgradeCard(card: Card): Promise<void>;
 
-	upgradeCard(card: Card): void;
-
-	downgradeCard(card: Card): void;
+	downgradeCard(card: Card): Promise<void>;
 }

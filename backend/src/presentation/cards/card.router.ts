@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { CardController } from './Card.controller';
-import { IRouter } from '../Router';
+import { RouterConfiguration } from '../RouterConfiguration';
 
-export class CardRouter implements IRouter {
+export class CardRouter implements RouterConfiguration {
 	private readonly _router = Router();
 	private readonly _cardController: CardController;
 

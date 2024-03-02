@@ -1,5 +1,6 @@
-import { Card } from '../../../domain/card/entities/Card';
 import { randomUUID, UUID } from 'crypto';
+
+import { Card } from '../../../domain/card/entities/Card';
 import { CardRepository } from '../../../domain/card/CardRepository';
 import { CardId } from '../../../domain/card/entities/CardId';
 import { Category } from '../../../domain/card/entities/Category';
@@ -12,15 +13,15 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	loadCardById(id: string): Card[] {
-		throw new Error('Method not implemented.');
+	loadCardById(id: string): Promise<undefined | Card> {
+		return Promise.resolve(this.registry.get(id as UUID));
 	}
 
-	loadAllCards(): Card[] {
-		return [...this.registry.values()];
+	loadAllCards(): Promise<Card[]> {
+		return Promise.resolve([...this.registry.values()]);
 	}
 
-	loadAllCardsByTags(tags: string[]): Card[] {
+	loadAllCardsByTags(tags: string[]): Promise<Card[]> {
 		const cards: Card[] = [];
 
 		this.registry.forEach((card) => {
@@ -29,10 +30,10 @@ export class InMemoryCardRepository implements CardRepository {
 			}
 		});
 
-		return cards;
+		return Promise.resolve(cards);
 	}
 
-	save(card: Card): void {
+	save(card: Card): Promise<void> {
 		const existingCard = this.registry.get(card.cardId.value);
 
 		if (this.isExistingCard(existingCard as Card, card)) {
@@ -40,7 +41,9 @@ export class InMemoryCardRepository implements CardRepository {
 				throw new Error('question needs to be unique');
 			}
 		}
+
 		this.registry.set(card.cardId.value, card);
+		return Promise.resolve();
 	}
 
 	private isQuestionUnique(question: string): boolean {

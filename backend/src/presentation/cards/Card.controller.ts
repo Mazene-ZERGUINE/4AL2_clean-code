@@ -13,59 +13,55 @@ export class CardController {
 		this._cardService = cardService;
 	}
 
-	getAll = (request: Request, response: Response): void => {
+	getAll = async (request: Request, response: Response): Promise<void> => {
 		const tags: string[] = request.query.tags ? (request.query.tags as string).split(',') : [];
 		const cards =
-			tags.length == 0 ? this._cardService.getAll() : this._cardService.getAllByTags(tags);
-		const cardResponses: CardResponse[] = cards.map((card) => this.getCardAsResponse(card));
+			tags.length == 0
+				? await this._cardService.getAll()
+				: await this._cardService.getAllByTags(tags);
 
+		const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
 		response.status(200).json(cardResponses);
 	};
 
-	private getCardAsResponse(card: Card): CardResponse {
+	private mapAsCardResponse(card: Card): CardResponse {
 		return new CardResponse(card);
 	}
 
-	create = (request: Request, response: Response): void => {
+	create = async (request: Request, response: Response): Promise<void> => {
 		const { question, answer, tag } = request.body;
 
 		try {
-			const cardUserData = CardUserData.of(question, answer, tag);
-			const createCardRequest = new CreateCardRequest(cardUserData);
+			const createCardRequest = new CreateCardRequest(CardUserData.of(question, answer, tag));
+			const card = await this._cardService.create(createCardRequest);
 
-			const card = this._cardService.create(createCardRequest);
-			const cardResponse = this.getCardAsResponse(card);
-
-			response.status(201).json(cardResponse);
+			response.status(201).json(this.mapAsCardResponse(card));
 		} catch (_) {
 			response.status(400).send('Bad request');
 		}
 	};
 
-	getQuiz = (request: Request, response: Response): void => {
-		const date: string = (request.query.date as string) || new Date().toISOString();
-		const quizDate: Date = new Date(date);
+	getQuiz = async (request: Request, response: Response): Promise<void> => {
+		const providedDateOrTodaysDate: string =
+			(request.query.date as string) || new Date().toISOString();
+		const quizDate = new Date(providedDateOrTodaysDate);
+		const cards = await this._cardService.getAllByDate(quizDate);
 
-		const cards: Card[] = this._cardService.getCardsByDate(quizDate);
-		const cardResponses = cards.map((card: Card) => this.getCardAsResponse(card));
-
+		const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
 		response.status(200).json(cardResponses);
 	};
 
-	answerCard = (request: Request, response: Response): void => {
-		const { cardId } = request.params;
-		const { isValid } = request.body;
-
-		const answeredCard = this._cardService.getCardById(cardId);
-
-		if (answeredCard === undefined) {
-			response.status(404).send('Card not found');
-		}
-
+	answerCard = async (request: Request, response: Response): Promise<void> => {
 		try {
-			isValid
-				? this._cardService.upgradeCard(answeredCard as Card)
-				: this._cardService.downgradeCard(answeredCard as Card);
+			const answeredCard = await this._cardService.getById(request.params.cardId);
+			if (!answeredCard) {
+				response.status(404).send('Card not found');
+				return;
+			}
+
+			request.body.isValid
+				? await this._cardService.upgradeCard(answeredCard)
+				: await this._cardService.downgradeCard(answeredCard);
 
 			response.status(204).send('Answer has been taken into account');
 		} catch (e) {
