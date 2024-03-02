@@ -69,7 +69,11 @@ export class AddCardDialogComponent {
       this._showSnackBar(effectiveTag);
     }
 
-    this.moreActionService.closeOpenedDialog(this.dialogRef);
+    if (!this.tagFromList) {
+      this.addCardForm.controls.tag.disable();
+    }
+    this.addCardForm.controls.question.reset();
+    this.addCardForm.controls.answer.reset();
   }
 
   private _showSnackBar(tag: string) {
