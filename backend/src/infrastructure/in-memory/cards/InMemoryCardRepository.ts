@@ -11,6 +11,11 @@ export class InMemoryCardRepository implements CardRepository {
 		this.setRegistryDefaultData();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	loadCardById(id: string): Card[] {
+		throw new Error('Method not implemented.');
+	}
+
 	loadAllCards(): Card[] {
 		return [...this.registry.values()];
 	}
