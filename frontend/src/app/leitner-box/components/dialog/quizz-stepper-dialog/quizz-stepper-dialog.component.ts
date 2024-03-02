@@ -44,8 +44,8 @@ export class QuizzStepperDialogComponent {
     .pipe(
       map((breakpoint) =>
         breakpoint.matches
-          ? CustomStepperOrientation.Horizontal
-          : CustomStepperOrientation.Vertical,
+          ? CustomStepperOrientation.Vertical
+          : CustomStepperOrientation.Horizontal,
       ),
     );
 

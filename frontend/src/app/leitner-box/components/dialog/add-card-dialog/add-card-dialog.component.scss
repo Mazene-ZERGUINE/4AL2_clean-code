@@ -1,1 +1,11 @@
 @use 'src/app/common/scss/colors';
+
+
+.add-card-dialog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    height: 100%;
+}

@@ -4,41 +4,49 @@
     [editable]="false"
     [completed]="false"
     *ngFor="let card of cardsToStudy"
+    class="d-flex flex-column align-items-center"
   >
     <app-card-list-item [card]="card"></app-card-list-item>
     <form>
-      <mat-form-field [formGroup]="answerFormGroup" appearance="fill">
+      <mat-form-field class="w-100" [formGroup]="answerFormGroup" appearance="outline">
         <mat-label>Answer:</mat-label>
         <input matInput placeholder="Answer:" formControlName="answer" required />
       </mat-form-field>
       <p *ngIf="validationMessage$ | async as validationMessage">{{ validationMessage }}</p>
       <div>
         <button
+          *ngIf="hasAnswered.value && !isCorrectAnswer.value"
+          class="bg-warning text-white me-2"
+          mat-button
+          matStepperNext
+          (click)="forceValidation(card.id!)"
+        >
+          <mat-icon>warning</mat-icon>
+          Typing error
+        </button>
+        <button
+          [ngClass]="{ 'bg-dark text-white me-2': !hasAnswered.value }"
           mat-button
           [disabled]="hasAnswered.value"
           (click)="handleIsCorrectAnswer(card.id!, card.answer)"
         >
           Verifier ma reponse
         </button>
-        <button *ngIf="hasAnswered.value" mat-button matStepperNext (click)="clearPreviousAnswer()">
-          Next
-        </button>
         <button
-          *ngIf="hasAnswered.value && !isCorrectAnswer.value"
+          [ngClass]="{ 'bg-dark text-white me-2': hasAnswered.value }"
+          *ngIf="hasAnswered.value"
           mat-button
           matStepperNext
-          (click)="forceValidation(card.id!)"
+          (click)="clearPreviousAnswer()"
         >
-          Typing error
+          Next
         </button>
       </div>
     </form>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>No more cards</ng-template>
-    <p>No more cards</p>
-    <!-- <div>
-        <button mat-button matStepperPrevious>Back</button>
-      </div> -->
+    <h1>Well done</h1>
+    <h3>You have finished you cards</h3>
   </mat-step>
 </mat-stepper>

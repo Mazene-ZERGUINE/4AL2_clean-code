@@ -41,7 +41,9 @@ export class LeitnerBoxEffects {
   addCard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addCard),
-      switchMap((action) => this.cardService.addCard(action.newCard).pipe(map(() => loadCards()))),
+      switchMap((action) =>
+        this.cardService.addCard(action.newCard).pipe(map(() => loadDailyCards())),
+      ),
     ),
   );
 
