@@ -12,7 +12,6 @@ export class InMemoryCardRepository implements CardRepository {
 		this.setRegistryDefaultData();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	loadCardById(id: string): Promise<undefined | Card> {
 		return Promise.resolve(this.registry.get(id as UUID));
 	}
