@@ -13,8 +13,8 @@ export class InMemoryCardRepository implements CardRepository {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	loadCardById(id: string): Promise<Card[]> {
-		throw new Error('Method not implemented.');
+	loadCardById(id: string): Promise<undefined | Card> {
+		return Promise.resolve(this.registry.get(id as UUID));
 	}
 
 	loadAllCards(): Promise<Card[]> {

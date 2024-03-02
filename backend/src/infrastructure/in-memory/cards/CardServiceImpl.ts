@@ -64,8 +64,7 @@ export class CardServiceImpl implements CardService {
 	}
 
 	async getById(cardId: string): Promise<Card | undefined> {
-		const cards = await this._cardRepository.loadAllCards();
-		return cards.find((card: Card) => card.cardId.value == cardId);
+		return await this._cardRepository.loadCardById(cardId);
 	}
 
 	async upgradeCard(card: Card): Promise<void> {
