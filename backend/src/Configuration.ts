@@ -4,35 +4,35 @@ import { json, urlencoded } from 'body-parser';
 
 import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';
-import { IRouter } from './presentation/Router';
+import { RouterConfiguration } from './presentation/RouterConfiguration';
 
-export class ConfigurationBuilder {
+export class AppConfigurationBuilder {
 	private app?: Express;
 	private cardRepository?: CardRepository;
 	private cardController?: CardController;
-	private cardRouter?: IRouter;
+	private cardRouter?: RouterConfiguration;
 
-	withApp(app: Express): ConfigurationBuilder {
+	withApp(app: Express): AppConfigurationBuilder {
 		this.app = app;
 		return this;
 	}
 
-	withCardController(controller: CardController): ConfigurationBuilder {
+	withCardController(controller: CardController): AppConfigurationBuilder {
 		this.cardController = controller;
 		return this;
 	}
 
-	withCardRepository(repository: CardRepository): ConfigurationBuilder {
+	withCardRepository(repository: CardRepository): AppConfigurationBuilder {
 		this.cardRepository = repository;
 		return this;
 	}
 
-	withCardRouter(router: IRouter): ConfigurationBuilder {
+	withCardRouter(router: RouterConfiguration): AppConfigurationBuilder {
 		this.cardRouter = router;
 		return this;
 	}
 
-	useMiddlewares(): ConfigurationBuilder {
+	useMiddlewares(): AppConfigurationBuilder {
 		if (!this.app) {
 			throw new Error('Express app is not set.');
 		}
@@ -45,7 +45,7 @@ export class ConfigurationBuilder {
 		return this;
 	}
 
-	useRoutes(): ConfigurationBuilder {
+	useRoutes(): AppConfigurationBuilder {
 		if (!this.app) {
 			throw new Error('Express app is not set.');
 		}

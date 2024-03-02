@@ -1,7 +1,8 @@
+import { randomUUID } from 'crypto';
+
 import { Category } from '../../domain/card/entities/Category';
 import { CardId } from '../../domain/card/entities/CardId';
 import { Card } from '../../domain/card/entities/Card';
-import { randomUUID } from 'crypto';
 
 describe('Card', () => {
 	let cardId: CardId;

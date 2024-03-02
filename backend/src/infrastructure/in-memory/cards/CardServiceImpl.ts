@@ -1,11 +1,12 @@
+import { randomUUID } from 'crypto';
+import { differenceInDays } from 'date-fns';
+
 import { CardRepository } from '../../../domain/card/CardRepository';
 import { Card } from '../../../domain/card/entities/Card';
 import { CreateCardRequest } from '../../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 import { CardId } from '../../../domain/card/entities/CardId';
-import { randomUUID } from 'crypto';
 import { CardService } from '../../../domain/card/CardService';
 import { Category } from '../../../domain/card/entities/Category';
-import { differenceInDays } from 'date-fns';
 
 export class CardServiceImpl implements CardService {
 	private readonly _cardRepository: CardRepository;
@@ -14,27 +15,26 @@ export class CardServiceImpl implements CardService {
 		this._cardRepository = cardRepository;
 	}
 
-	getAll(): Card[] {
-		return this._cardRepository.loadAllCards();
+	async getAll(): Promise<Card[]> {
+		return await this._cardRepository.loadAllCards();
 	}
 
-	getAllByTags(tags: string[]): Card[] {
-		return this._cardRepository.loadAllCardsByTags(tags);
+	async getAllByTags(tags: string[]): Promise<Card[]> {
+		return await this._cardRepository.loadAllCardsByTags(tags);
 	}
 
-	create({ question, tag, answer }: CreateCardRequest): Card {
+	async create({ question, tag, answer }: CreateCardRequest): Promise<Card> {
 		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
-
-		this._cardRepository.save(card);
+		await this._cardRepository.save(card);
 
 		return card;
 	}
 
-	getCardsByDate(date: Date): Card[] {
-		const allCards = this._cardRepository.loadAllCards();
+	async getAllByDate(date: Date): Promise<Card[]> {
+		const allCards = await this._cardRepository.loadAllCards();
 
-		const learningStartDate: Date = new Date('2024-02-25');
-		const frequency = differenceInDays(date, learningStartDate);
+		const arbitraryLearningStartDate = new Date('2024-02-25');
+		const frequency = differenceInDays(date, arbitraryLearningStartDate);
 
 		const todayCards: Card[] = [];
 
@@ -50,6 +50,7 @@ export class CardServiceImpl implements CardService {
 
 		allCards.forEach((card: Card) => {
 			const order = categoryOrder[card.category as keyof typeof categoryOrder];
+
 			if (this.isTodayQuizzCard(order, frequency)) {
 				todayCards.push(card);
 			}
@@ -62,12 +63,12 @@ export class CardServiceImpl implements CardService {
 		return order !== undefined && frequency % order === 0;
 	}
 
-	getCardById(cardId: string): Card | undefined {
-		const cards = this._cardRepository.loadAllCards();
+	async getById(cardId: string): Promise<Card | undefined> {
+		const cards = await this._cardRepository.loadAllCards();
 		return cards.find((card: Card) => card.cardId.value == cardId);
 	}
 
-	upgradeCard(card: Card): void {
+	async upgradeCard(card: Card): Promise<void> {
 		const categories = Object.values(Category);
 		const currentIndex = categories.indexOf(card.category);
 		if (currentIndex < categories.length - 1) {
@@ -75,11 +76,12 @@ export class CardServiceImpl implements CardService {
 		} else {
 			card.category = Category.DONE;
 		}
-		this._cardRepository.save(card);
+
+		await this._cardRepository.save(card);
 	}
 
-	downgradeCard(card: Card): void {
+	async downgradeCard(card: Card): Promise<void> {
 		card.category = Category.FIRST;
-		this._cardRepository.save(card);
+		await this._cardRepository.save(card);
 	}
 }

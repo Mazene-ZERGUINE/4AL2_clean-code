@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+
 import { CardId } from '../../domain/card/entities/CardId';
 
 describe('CardId', () => {

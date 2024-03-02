@@ -1,12 +1,13 @@
+import { randomUUID } from 'crypto';
+import Mocked = jest.Mocked;
+import fn = jest.fn;
+
 import { CardService } from '../../domain/card/CardService';
 import { CardRepository } from '../../domain/card/CardRepository';
 import { CardServiceImpl } from '../../infrastructure/in-memory/cards/CardServiceImpl';
 import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 import { CardUserData } from '../../presentation/cards/response-request/CreateCard/CardUserData';
-import Mocked = jest.Mocked;
-import fn = jest.fn;
 import { Card } from '../../domain/card/entities/Card';
-import { randomUUID } from 'crypto';
 import { Category } from '../../domain/card/entities/Category';
 import { CardId } from '../../domain/card/entities/CardId';
 
@@ -25,7 +26,7 @@ describe('CardServiceImpl', () => {
 		cardService = new CardServiceImpl(cardRepositoryMock);
 	});
 
-	it('should create a card and be returned', () => {
+	it('should create a card and be returned', async () => {
 		// Arrange
 		const question = '1 + 1 = ?';
 		const answer = '2';
@@ -34,7 +35,7 @@ describe('CardServiceImpl', () => {
 		const createCardRequest = new CreateCardRequest(cardUserData);
 
 		// Act
-		const card = cardService.create(createCardRequest);
+		const card = await cardService.create(createCardRequest);
 
 		// Assert
 		expect(cardRepositoryMock.save).toBeCalled();
@@ -44,7 +45,7 @@ describe('CardServiceImpl', () => {
 		expect(card.category).toEqual(Category.FIRST);
 	});
 
-	it('should load all cards by tags', () => {
+	it('should load all cards by tags', async () => {
 		// Arrange
 		const expectedCards = [
 			{
@@ -64,13 +65,15 @@ describe('CardServiceImpl', () => {
 		];
 
 		cardRepositoryMock.loadAllCards.mockReturnValue(
-			expectedCards.map(
-				(card) => new Card(card.cardId, card.question, card.answer, card.tag, card.category),
+			Promise.resolve(
+				expectedCards.map(
+					(card) => new Card(card.cardId, card.question, card.answer, card.tag, card.category),
+				),
 			),
 		);
 
 		// Act
-		const cards = cardService.getAll();
+		const cards = await cardService.getAll();
 
 		// Assert
 		expect(cardRepositoryMock.loadAllCards).toHaveBeenCalled();
@@ -87,7 +90,7 @@ describe('CardServiceImpl', () => {
 		});
 	});
 
-	it('should load all cards by queried tags', () => {
+	it('should load all cards by queried tags', async () => {
 		// Arrange
 		const queriedTag1 = 'tag 1';
 		const queriedTag2 = 'tag 2';
@@ -125,13 +128,15 @@ describe('CardServiceImpl', () => {
 		];
 
 		cardRepositoryMock.loadAllCardsByTags.mockReturnValue(
-			expectedCards
-				.map((card) => new Card(card.cardId, card.question, card.answer, card.tag, card.category))
-				.filter((card) => queriedTags.includes(card.tag)),
+			Promise.resolve(
+				expectedCards
+					.map((card) => new Card(card.cardId, card.question, card.answer, card.tag, card.category))
+					.filter((card) => queriedTags.includes(card.tag)),
+			),
 		);
 
 		// Act
-		const cards = cardService.getAllByTags(queriedTags);
+		const cards = await cardService.getAllByTags(queriedTags);
 
 		// Assert
 		expect(cardRepositoryMock.loadAllCardsByTags).toHaveBeenCalledWith(queriedTags);
@@ -141,13 +146,15 @@ describe('CardServiceImpl', () => {
 	// TODO/FIXME
 	xit("should call the repository's 'loadAllCards()' when getting cards by date", () => {
 		const tag = 'tag';
-		cardRepositoryMock.loadAllCards.mockReturnValue([
-			new Card(new CardId(randomUUID()), 'question 1', 'answer 1', tag, Category.FIRST),
-			new Card(new CardId(randomUUID()), 'question 2', 'answer 2', tag, Category.SECOND),
-		]);
+		cardRepositoryMock.loadAllCards.mockReturnValue(
+			Promise.resolve([
+				new Card(new CardId(randomUUID()), 'question 1', 'answer 1', tag, Category.FIRST),
+				new Card(new CardId(randomUUID()), 'question 2', 'answer 2', tag, Category.SECOND),
+			]),
+		);
 
 		// Act
-		cardService.getCardsByDate(new Date());
+		cardService.getAllByDate(new Date());
 
 		// Assert
 		expect(cardRepositoryMock.loadAllCards).toHaveBeenCalled();
@@ -159,7 +166,7 @@ describe('CardServiceImpl', () => {
 		const cardId = randomUUID();
 
 		// Act
-		cardService.getCardById(cardId);
+		cardService.getById(cardId);
 
 		// Assert
 		expect(cardRepositoryMock.loadCardById).toHaveBeenCalledWith(cardId);

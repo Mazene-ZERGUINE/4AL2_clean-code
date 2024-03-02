@@ -1,13 +1,15 @@
+/* eslint-disable no-console */
 import express from 'express';
+import dotenv from 'dotenv';
+
 import { InMemoryCardRepository } from './infrastructure/in-memory/cards/InMemoryCardRepository';
-import { ConfigurationBuilder } from './Configuration';
+import { AppConfigurationBuilder } from './Configuration';
 import { CardService } from './domain/card/CardService';
 import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';
 import { CardRouter } from './presentation/cards/card.router';
-import dotenv from 'dotenv';
 import { CardServiceImpl } from './infrastructure/in-memory/cards/CardServiceImpl';
-import { IRouter } from './presentation/Router';
+import { RouterConfiguration } from './presentation/RouterConfiguration';
 
 dotenv.config();
 
@@ -17,10 +19,10 @@ const PORT: number = Number(process.env.SERVER_PORT) || 8080;
 const cardRepository: CardRepository = new InMemoryCardRepository();
 const cardService: CardService = new CardServiceImpl(cardRepository);
 const cardController = new CardController(cardService);
-const cardRouter: IRouter = new CardRouter(cardController);
+const cardRouter: RouterConfiguration = new CardRouter(cardController);
 
 try {
-	const app = new ConfigurationBuilder()
+	const app = new AppConfigurationBuilder()
 		.withApp(express())
 		.withCardController(cardController)
 		.withCardRepository(cardRepository)
@@ -30,10 +32,8 @@ try {
 		.build();
 
 	app.listen(PORT, () => {
-		// eslint-disable-next-line no-console
 		console.log(`🚀 Server is running at http://${HOST}:${PORT}`);
 	});
 } catch (e) {
-	// eslint-disable-next-line no-console
 	console.error(e);
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-export interface IRouter {
+export interface RouterConfiguration {
 	router: Router;
 	initRoutes(): void;
 }
