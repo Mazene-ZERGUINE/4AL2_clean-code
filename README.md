@@ -33,6 +33,12 @@ npm run start
   ```
   npm run test
   ```
+
+- tests e2e playwright (branch bonus2)
+  ```
+  npx playwright install 
+  npx playwright test
+  ```
   
 ### Lancer le front-end :
 - application :
@@ -57,16 +63,19 @@ npm run start
 
 ## Fonctionnalites
 - [ ] me connecter pour accéder à mes propres fiches
-- [ ] créer des fiches qui seront intégrées dans le système en catégorie 1
-- [ ] déclencher un questionnaire afin de répondre aux questions de mes fiches
-- [ ] faire qu’un questionnaire par jour
-- [ ] comparer une mauvaise réponse avec la réponse d’origine
-- [ ] forcer la validation d’une fiche même si ma réponse n’est pas la même
-- [ ] descente en catégorie 1 des fiches mal répondues
-- [ ] montée de catégorie des fiches bien répondues
-- [ ] les fiches de catégorie 7 bien répondues ne me sont plus proposées
-- [ ] les fiches proposées correspondent à la fréquence associée à leur catégorie du système de Leitner
-- [ ] mettre des tags personnalisés sur mes fiches
-- [ ] consulter toutes les fiches associées à un même tag et leur catégorie
+- [X] créer des fiches qui seront intégrées dans le système en catégorie 1
+- [X] déclencher un questionnaire afin de répondre aux questions de mes fiches
+- [X] faire qu’un questionnaire par jour
+- [X] comparer une mauvaise réponse avec la réponse d’origine
+- [X] forcer la validation d’une fiche même si ma réponse n’est pas la même
+- [X] descente en catégorie 1 des fiches mal répondues
+- [X] montée de catégorie des fiches bien répondues
+- [X] les fiches de catégorie 7 bien répondues ne me sont plus proposées
+- [X] les fiches proposées correspondent à la fréquence associée à leur catégorie du système de Leitner
+- [X] mettre des tags personnalisés sur mes fiches
+- [X] consulter toutes les fiches associées à un même tag et leur catégorie
 - [ ] être notifié à l’heure de mon choix pour déclencher le questionnaire
 
+## Bonus
+- [ ] Bonus 1
+- [X] Bonus 2 (regardez la branche bonus2)
