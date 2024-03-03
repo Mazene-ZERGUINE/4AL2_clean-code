@@ -3,7 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import { InMemoryCardRepository } from './infrastructure/in-memory/cards/InMemoryCardRepository';
-import { AppConfigurationBuilder } from './Configuration';
+import { AppConfigurationBuilder } from './AppConfigurationBuilder';
 import { CardService } from './domain/card/CardService';
 import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';

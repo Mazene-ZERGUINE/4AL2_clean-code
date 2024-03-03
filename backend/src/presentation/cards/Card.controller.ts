@@ -15,13 +15,18 @@ export class CardController {
 
 	getAll = async (request: Request, response: Response): Promise<void> => {
 		const tags: string[] = request.query.tags ? (request.query.tags as string).split(',') : [];
-		const cards =
-			tags.length == 0
-				? await this._cardService.getAll()
-				: await this._cardService.getAllByTags(tags);
 
-		const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
-		response.status(200).json(cardResponses);
+		try {
+			const cards =
+				tags.length == 0
+					? await this._cardService.getAll()
+					: await this._cardService.getAllByTags(tags);
+
+			const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
+			response.status(200).json(cardResponses);
+		} catch (_) {
+			response.status(500).end();
+		}
 	};
 
 	private mapAsCardResponse(card: Card): CardResponse {
@@ -45,10 +50,15 @@ export class CardController {
 		const providedDateOrTodaysDate: string =
 			(request.query.date as string) || new Date().toISOString();
 		const quizDate = new Date(providedDateOrTodaysDate);
-		const cards = await this._cardService.getAllByDate(quizDate);
 
-		const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
-		response.status(200).json(cardResponses);
+		try {
+			const cards = await this._cardService.getAllByDate(quizDate);
+
+			const cardResponses: CardResponse[] = cards.map((card) => this.mapAsCardResponse(card));
+			response.status(200).json(cardResponses);
+		} catch (_) {
+			response.status(500).end();
+		}
 	};
 
 	answerCard = async (request: Request, response: Response): Promise<void> => {
@@ -64,7 +74,7 @@ export class CardController {
 				: await this._cardService.downgradeCard(answeredCard);
 
 			response.status(204).send('Answer has been taken into account');
-		} catch (e) {
+		} catch (_) {
 			response.status(400).send('Bad request');
 		}
 	};
