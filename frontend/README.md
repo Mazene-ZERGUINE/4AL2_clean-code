@@ -5,7 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # Project Architecture
 
 ```
-<img width="1068" alt="image" src="https://github.com/Mazene-ZERGUINE/4AL2_clean-code/assets/80518856/9799d370-4c0c-4408-8ef0-6a74738a302f">
+![alt text](https://github.com/Mazene-ZERGUINE/4AL2_clean-code/assets/80518856/9799d370-4c0c-4408-8ef0-6a74738a302f)
 
 ```
 
