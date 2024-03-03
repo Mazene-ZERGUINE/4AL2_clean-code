@@ -48,7 +48,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOST}}:{{PORT}}/cards?tags=geography,history",
+					"raw": "{{HOST}}:{{PORT}}/cards?tags=history,geography",
 					"host": [
 						"{{HOST}}"
 					],
@@ -59,7 +59,7 @@
 					"query": [
 						{
 							"key": "tags",
-							"value": "geography,history"
+							"value": "history,geography"
 						}
 					]
 				}
@@ -205,7 +205,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOST}}:{{PORT}}/cards/quizz?date=2024-03-01",
+					"raw": "{{HOST}}:{{PORT}}/cards/quizz?date=2024-02-27",
 					"host": [
 						"{{HOST}}"
 					],
@@ -217,7 +217,7 @@
 					"query": [
 						{
 							"key": "date",
-							"value": "2024-03-01"
+							"value": "2024-02-27"
 						}
 					]
 				}
@@ -231,7 +231,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"isValid\": false\n}",
+					"raw": "{\n   \"isValid\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -239,14 +239,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}:{{PORT}}/cards/583496f1-ec60-4cb9-9a67-9286520b730d/answer",
+					"raw": "{{HOST}}:{{PORT}}/cards/fc7a8b9c-4e55-4075-876f-3b1df0702043/answer",
 					"host": [
 						"{{HOST}}"
 					],
 					"port": "{{PORT}}",
 					"path": [
 						"cards",
-						"583496f1-ec60-4cb9-9a67-9286520b730d",
+						"fc7a8b9c-4e55-4075-876f-3b1df0702043",
 						"answer"
 					]
 				}
