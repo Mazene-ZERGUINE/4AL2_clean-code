@@ -1,12 +1,12 @@
 import { randomUUID } from 'crypto';
 import { differenceInDays } from 'date-fns';
 
-import { CardRepository } from '../../../domain/card/CardRepository';
-import { Card } from '../../../domain/card/entities/Card';
-import { CreateCardRequest } from '../../../presentation/cards/response-request/CreateCard/CreateCardRequest';
-import { CardId } from '../../../domain/card/entities/CardId';
-import { CardService } from '../../../domain/card/CardService';
-import { Category } from '../../../domain/card/entities/Category';
+import { CardRepository } from '../../domain/card/CardRepository';
+import { Card } from '../../domain/card/entities/Card';
+import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
+import { CardId } from '../../domain/card/entities/CardId';
+import { CardService } from '../../domain/card/CardService';
+import { Category } from '../../domain/card/entities/Category';
 
 export class CardServiceImpl implements CardService {
 	private readonly _cardRepository: CardRepository;
