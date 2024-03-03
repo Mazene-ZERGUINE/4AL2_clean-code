@@ -34,7 +34,7 @@ npm run start
   npm run test
   ```
 
-- tests e2e playwright (bonus)
+- tests e2e playwright (branch bonus2)
   ```
   npx playwright install 
   npx playwright test
