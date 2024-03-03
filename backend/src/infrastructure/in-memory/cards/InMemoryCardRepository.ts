@@ -32,11 +32,11 @@ export class InMemoryCardRepository implements CardRepository {
 		return Promise.resolve(cards);
 	}
 
-	save(card: Card): Promise<void> {
+	async save(card: Card): Promise<void> {
 		const existingCard = this.registry.get(card.cardId.value);
 
 		if (this.isExistingCard(existingCard as Card, card)) {
-			if (!this.isQuestionUnique(card.question)) {
+			if (!(await this.questionExists(card.question))) {
 				throw new Error('question needs to be unique');
 			}
 		}
@@ -45,14 +45,14 @@ export class InMemoryCardRepository implements CardRepository {
 		return Promise.resolve();
 	}
 
-	private isQuestionUnique(question: string): boolean {
+	questionExists(question: string): Promise<boolean> {
 		for (const existingCard of this.registry.values()) {
 			if (existingCard.question === question) {
-				return false;
+				return Promise.resolve(false);
 			}
 		}
 
-		return true;
+		return Promise.resolve(true);
 	}
 
 	private isExistingCard(existingCard: Card, card: Card): boolean {

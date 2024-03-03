@@ -21,17 +21,18 @@ describe('CardServiceImpl', () => {
 			loadCardById: fn(),
 			loadAllCards: fn(),
 			loadAllCardsByTags: fn(),
+			questionExists: fn(),
 			save: fn(),
 		};
 
 		cardService = new CardServiceImpl(cardRepositoryMock);
 	});
 
-	it('should create a card and be returned', async () => {
+	it('should create a card with a nonexistent question and be returned', async () => {
 		// Arrange
-		const question = '1 + 1 = ?';
-		const answer = '2';
-		const tag = 'Maths';
+		const question = 'question 1';
+		const answer = 'answer 1';
+		const tag = 'tag';
 		const cardUserData = CardUserData.of(question, answer, tag);
 		const createCardRequest = new CreateCardRequest(cardUserData);
 
@@ -39,6 +40,7 @@ describe('CardServiceImpl', () => {
 		const card = await cardService.create(createCardRequest);
 
 		// Assert
+		expect(cardRepositoryMock.questionExists).toBeCalled();
 		expect(cardRepositoryMock.save).toBeCalled();
 		expect(card.question).toEqual(question);
 		expect(card.answer).toEqual(answer);
@@ -46,7 +48,24 @@ describe('CardServiceImpl', () => {
 		expect(card.category).toEqual(Category.FIRST);
 	});
 
-	it('should load all cards by tags', async () => {
+	it('should throw an error when creating a card with an existing question', async () => {
+		// Arrange
+		const question = 'question 1';
+		const answer = 'answer 1';
+		const tag = 'tag';
+		const cardUserData = CardUserData.of(question, answer, tag);
+		const createCardRequest = new CreateCardRequest(cardUserData);
+		cardRepositoryMock.questionExists.mockResolvedValue(true);
+
+		// Assert
+		await expect(cardService.create(createCardRequest)).rejects.toThrow(
+			'Question needs to be unique',
+		);
+		expect(cardRepositoryMock.questionExists).toBeCalled();
+		expect(cardRepositoryMock.save).not.toHaveBeenCalled();
+	});
+
+	it('should load all cards', async () => {
 		// Arrange
 		const expectedCards = [
 			{
@@ -144,36 +163,49 @@ describe('CardServiceImpl', () => {
 		expect(cards.every((card) => queriedTags.includes(card.tag))).toBeTruthy();
 	});
 
-	// TODO/FIXME
-	xit("should call the repository's 'loadAllCards()' when getting cards by date", () => {
-		const tag = 'tag';
-		cardRepositoryMock.loadAllCards.mockReturnValue(
-			Promise.resolve([
-				new Card(new CardId(randomUUID()), 'question 1', 'answer 1', tag, Category.FIRST),
-				new Card(new CardId(randomUUID()), 'question 2', 'answer 2', tag, Category.SECOND),
-			]),
-		);
+	it('should load a card by ID', async () => {
+		// Arrange
+		const expectedCard = new Card(new CardId(randomUUID()), 'q', 'a', 't', Category.FIRST);
+		cardRepositoryMock.loadCardById.mockResolvedValue(expectedCard);
 
 		// Act
-		cardService.getAllByDate(new Date());
+		const card = await cardService.getById(expectedCard.cardId.value);
+
+		// Assert
+		expect(cardRepositoryMock.loadCardById).toHaveBeenCalledWith(card?.cardId.value);
+		expect(card).toBeTruthy();
+		expect(card?.cardId.value).toEqual(expectedCard.cardId.value);
+		expect(card?.question).toEqual(expectedCard.question);
+		expect(card?.answer).toEqual(expectedCard.answer);
+		expect(card?.tag).toEqual(expectedCard.tag);
+		expect(card?.category).toEqual(expectedCard.category);
+	});
+
+	it('should load all cards by date', async () => {
+		// Arrange
+		const reviewDate = new Date('2024-02-27');
+		const loadedCards = [
+			new Card(new CardId(randomUUID()), 'question 1', 'answer 1', 'tag', Category.FIRST),
+			new Card(new CardId(randomUUID()), 'question 2', 'answer 2', 'tag', Category.SECOND),
+			new Card(new CardId(randomUUID()), 'question 3', 'answer 3', 'tag', Category.THIRD),
+			new Card(new CardId(randomUUID()), 'question 4', 'answer 4', 'tag', Category.FORTH),
+			new Card(new CardId(randomUUID()), 'question 5', 'answer 5', 'tag', Category.FIFTH),
+			new Card(new CardId(randomUUID()), 'question 6', 'answer 6', 'tag', Category.SIXTH),
+			new Card(new CardId(randomUUID()), 'question 7', 'answer 7', 'tag', Category.SEVENTH),
+			new Card(new CardId(randomUUID()), 'question 8', 'answer 8', 'tag', Category.DONE),
+		];
+		cardRepositoryMock.loadAllCards.mockResolvedValue(loadedCards);
+
+		// Act
+		const cards = await cardService.getAllByDate(reviewDate);
 
 		// Assert
 		expect(cardRepositoryMock.loadAllCards).toHaveBeenCalled();
+		expect(cards.length).toBe(2);
+		expect(cards[0].cardId.value).toBe(loadedCards[0].cardId.value);
 	});
 
-	// TODO/FIXME
-	xit("should call the repository's 'loadCardById()' when answering a card", () => {
-		// Arrange
-		const cardId = randomUUID();
-
-		// Act
-		cardService.getById(cardId);
-
-		// Assert
-		expect(cardRepositoryMock.loadCardById).toHaveBeenCalledWith(cardId);
-	});
-
-	describe('Card upgrade functionality', () => {
+	describe('Card upgrading', () => {
 		const categories = Object.values(Category);
 
 		categories.forEach((currentCategory, index) => {
@@ -183,7 +215,7 @@ describe('CardServiceImpl', () => {
 
 			const nextCategory = categories[index + 1] ?? Category.DONE;
 
-			it(`should upgrade a card with category ${currentCategory} to ${nextCategory} when answering a question correctly`, async () => {
+			it(`should upgrade a card with category '${currentCategory}' to '${nextCategory}' when answering a question correctly`, async () => {
 				// Arrange
 				const card = new Card(new CardId(randomUUID()), 'q', 'a', 't', currentCategory);
 				cardRepositoryMock.loadCardById.mockResolvedValue(card);
@@ -199,15 +231,29 @@ describe('CardServiceImpl', () => {
 				jest.clearAllMocks();
 			});
 		});
+
+		it('throws an error when upgrading a card already in the DONE category', async () => {
+			// Arrange
+			const doneCard = new Card(new CardId(randomUUID()), 'q', 'a', 't', Category.DONE);
+			cardRepositoryMock.loadCardById.mockResolvedValue(doneCard);
+
+			// Act & Assert
+			await expect(cardService.upgradeCard(doneCard)).rejects.toThrow(
+				'Card is already in the highest category',
+			);
+			expect(cardRepositoryMock.save).not.toHaveBeenCalled();
+		});
 	});
 
-	describe('Card downgrading functionality', () => {
-		Object.values(Category).forEach((currentCategory) => {
+	describe('Card downgrading', () => {
+		const categories = Object.values(Category);
+
+		categories.forEach((currentCategory) => {
 			if (currentCategory === Category.DONE) {
 				return;
 			}
 
-			it(`should downgrade a card from ${currentCategory} to FIRST, regardless of its initial category`, async () => {
+			it(`should downgrade a card with category '${currentCategory}' to 'FIRST', regardless of its initial category`, async () => {
 				// Arrange
 				const card = new Card(new CardId(randomUUID()), 'q', 'a', 't', currentCategory);
 				cardRepositoryMock.loadCardById.mockResolvedValue(card);

@@ -26,7 +26,10 @@ export class CardUserData {
 			throw new Error('No answer provided');
 		}
 
-		const trimmedTag: string = this.isValidTag(tag) ? (tag as string).trim() : 'No tag';
+		if (!this.isValidTag(tag)) {
+			throw new Error('Invalid tag type');
+		}
+		const trimmedTag: string = tag ? tag.trim() || 'No tag' : 'No tag';
 
 		return new CardUserData(trimmedQuestion, trimmedAnswer, trimmedTag);
 	}
@@ -35,8 +38,12 @@ export class CardUserData {
 		return typeof value === 'string';
 	}
 
-	private static isValidTag(tag: unknown): boolean {
-		return this.isString(tag) && Boolean(tag.trim());
+	private static isNullOrUndefined(value: unknown): value is null | undefined {
+		return value === null || value === undefined;
+	}
+
+	private static isValidTag(tag: unknown): tag is null | undefined | string {
+		return this.isNullOrUndefined(tag) || this.isString(tag);
 	}
 
 	get question(): string {

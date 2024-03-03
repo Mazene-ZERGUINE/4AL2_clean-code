@@ -15,19 +15,23 @@ export class CardServiceImpl implements CardService {
 		this._cardRepository = cardRepository;
 	}
 
+	async create({ question, tag, answer }: CreateCardRequest): Promise<Card> {
+		if (await this._cardRepository.questionExists(question)) {
+			throw new Error('Question needs to be unique');
+		}
+
+		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
+		await this._cardRepository.save(card);
+
+		return card;
+	}
+
 	async getAll(): Promise<Card[]> {
 		return await this._cardRepository.loadAllCards();
 	}
 
 	async getAllByTags(tags: string[]): Promise<Card[]> {
 		return await this._cardRepository.loadAllCardsByTags(tags);
-	}
-
-	async create({ question, tag, answer }: CreateCardRequest): Promise<Card> {
-		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
-		await this._cardRepository.save(card);
-
-		return card;
 	}
 
 	async getAllByDate(date: Date): Promise<Card[]> {
@@ -51,7 +55,7 @@ export class CardServiceImpl implements CardService {
 		allCards.forEach((card: Card) => {
 			const order = categoryOrder[card.category as keyof typeof categoryOrder];
 
-			if (this.isTodayQuizzCard(order, frequency)) {
+			if (this.isTodayQuizCard(order, frequency)) {
 				todayCards.push(card);
 			}
 		});
@@ -59,7 +63,7 @@ export class CardServiceImpl implements CardService {
 		return todayCards;
 	}
 
-	private isTodayQuizzCard(order: number, frequency: number): boolean {
+	private isTodayQuizCard(order: number, frequency: number): boolean {
 		return order !== undefined && frequency % order === 0;
 	}
 
@@ -78,13 +82,17 @@ export class CardServiceImpl implements CardService {
 
 		const categories = Object.values(Category);
 		const currentIndex = categories.indexOf(card.category);
-		if (currentIndex < categories.length - 1) {
-			upgradedCard.category = categories[currentIndex + 1];
-		} else {
-			upgradedCard.category = Category.DONE;
+
+		if (this.isLatestCategory(currentIndex, categories.length)) {
+			throw new Error('Card is already in the highest category');
 		}
 
+		upgradedCard.category = categories[currentIndex + 1];
 		await this._cardRepository.save(upgradedCard);
+	}
+
+	private isLatestCategory(currentIndex: number, categoriesLength: number): boolean {
+		return currentIndex >= categoriesLength - 1;
 	}
 
 	async downgradeCard(card: Card): Promise<void> {
