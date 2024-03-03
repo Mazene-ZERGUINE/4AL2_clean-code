@@ -46,8 +46,11 @@ npm run start
   ```
 
 ## Conception
-### Architecture hexagonale
+### Schéma
 ![](docs/schemas/clean_code-hexa.png)
+
+### Schéma du front-end
+[Structure du _front-end_](frontend/README.md#project-architecture)
 
 ### Domaine
 ![](docs/schemas/clean_code-domain.png)
