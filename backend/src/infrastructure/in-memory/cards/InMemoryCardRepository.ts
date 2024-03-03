@@ -12,6 +12,16 @@ export class InMemoryCardRepository implements CardRepository {
 		this.setRegistryDefaultData();
 	}
 
+	cardWithSameQuestionAndTagExist(card: Card): Promise<boolean> {
+		for (const existingCard of this.registry.values()) {
+			if (existingCard.question === card.question && existingCard.tag === card.tag) {
+				return Promise.resolve(true);
+			}
+		}
+
+		return Promise.resolve(false);
+	}
+
 	loadCardById(id: string): Promise<undefined | Card> {
 		return Promise.resolve(this.registry.get(id as UUID));
 	}
@@ -32,31 +42,22 @@ export class InMemoryCardRepository implements CardRepository {
 		return Promise.resolve(cards);
 	}
 
-	async save(card: Card): Promise<void> {
-		const existingCard = this.registry.get(card.cardId.value);
-
-		if (this.isExistingCard(existingCard as Card, card)) {
-			if (!(await this.questionExists(card.question))) {
-				throw new Error('question needs to be unique');
-			}
+	save(card: Card): Promise<void> {
+		if (this.registry.get(card.cardId.value)) {
+			return Promise.resolve();
 		}
 
 		this.registry.set(card.cardId.value, card);
 		return Promise.resolve();
 	}
 
-	questionExists(question: string): Promise<boolean> {
-		for (const existingCard of this.registry.values()) {
-			if (existingCard.question === question) {
-				return Promise.resolve(false);
-			}
+	update(card: Card): Promise<void> {
+		if (!this.registry.get(card.cardId.value)) {
+			return Promise.resolve();
 		}
 
-		return Promise.resolve(true);
-	}
-
-	private isExistingCard(existingCard: Card, card: Card): boolean {
-		return !existingCard || (existingCard && existingCard.question !== card.question);
+		this.registry.set(card.cardId.value, card);
+		return Promise.resolve();
 	}
 
 	private setRegistryDefaultData(): void {

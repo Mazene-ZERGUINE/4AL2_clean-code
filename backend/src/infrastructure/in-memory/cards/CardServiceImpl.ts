@@ -16,13 +16,12 @@ export class CardServiceImpl implements CardService {
 	}
 
 	async create({ question, tag, answer }: CreateCardRequest): Promise<Card> {
-		if (await this._cardRepository.questionExists(question)) {
-			throw new Error('Question needs to be unique');
+		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
+		if (await this._cardRepository.cardWithSameQuestionAndTagExist(card)) {
+			throw new Error('Question needs to be unique for the same tag');
 		}
 
-		const card = new Card(new CardId(randomUUID()), question, answer, tag, Category.FIRST);
 		await this._cardRepository.save(card);
-
 		return card;
 	}
 
@@ -72,23 +71,20 @@ export class CardServiceImpl implements CardService {
 	}
 
 	async upgradeCard(card: Card): Promise<void> {
+		const categories = Object.values(Category);
+		const currentIndex = categories.indexOf(card.category);
+		if (this.isLatestCategory(currentIndex, categories.length)) {
+			throw new Error('Card is already in the highest category');
+		}
+
 		const upgradedCard = new Card(
 			new CardId(card.cardId.value),
 			card.question,
 			card.answer,
 			card.tag,
-			card.category,
+			categories[currentIndex + 1],
 		);
-
-		const categories = Object.values(Category);
-		const currentIndex = categories.indexOf(card.category);
-
-		if (this.isLatestCategory(currentIndex, categories.length)) {
-			throw new Error('Card is already in the highest category');
-		}
-
-		upgradedCard.category = categories[currentIndex + 1];
-		await this._cardRepository.save(upgradedCard);
+		await this._cardRepository.update(upgradedCard);
 	}
 
 	private isLatestCategory(currentIndex: number, categoriesLength: number): boolean {
@@ -104,6 +100,6 @@ export class CardServiceImpl implements CardService {
 			Category.FIRST,
 		);
 
-		await this._cardRepository.save(downgradedCard);
+		await this._cardRepository.update(downgradedCard);
 	}
 }

@@ -21,8 +21,9 @@ describe('CardServiceImpl', () => {
 			loadCardById: fn(),
 			loadAllCards: fn(),
 			loadAllCardsByTags: fn(),
-			questionExists: fn(),
+			cardWithSameQuestionAndTagExist: fn(),
 			save: fn(),
+			update: fn(),
 		};
 
 		cardService = new CardServiceImpl(cardRepositoryMock);
@@ -40,7 +41,7 @@ describe('CardServiceImpl', () => {
 		const card = await cardService.create(createCardRequest);
 
 		// Assert
-		expect(cardRepositoryMock.questionExists).toBeCalled();
+		expect(cardRepositoryMock.cardWithSameQuestionAndTagExist).toBeCalled();
 		expect(cardRepositoryMock.save).toBeCalled();
 		expect(card.question).toEqual(question);
 		expect(card.answer).toEqual(answer);
@@ -55,13 +56,13 @@ describe('CardServiceImpl', () => {
 		const tag = 'tag';
 		const cardUserData = CardUserData.of(question, answer, tag);
 		const createCardRequest = new CreateCardRequest(cardUserData);
-		cardRepositoryMock.questionExists.mockResolvedValue(true);
+		cardRepositoryMock.cardWithSameQuestionAndTagExist.mockResolvedValue(true);
 
 		// Assert
 		await expect(cardService.create(createCardRequest)).rejects.toThrow(
-			'Question needs to be unique',
+			'Question needs to be unique for the same tag',
 		);
-		expect(cardRepositoryMock.questionExists).toBeCalled();
+		expect(cardRepositoryMock.cardWithSameQuestionAndTagExist).toBeCalled();
 		expect(cardRepositoryMock.save).not.toHaveBeenCalled();
 	});
 
@@ -224,7 +225,7 @@ describe('CardServiceImpl', () => {
 				await cardService.upgradeCard(card);
 
 				// Assert
-				expect(cardRepositoryMock.save).toHaveBeenCalledWith(
+				expect(cardRepositoryMock.update).toHaveBeenCalledWith(
 					expect.objectContaining({ category: nextCategory }),
 				);
 
@@ -241,7 +242,7 @@ describe('CardServiceImpl', () => {
 			await expect(cardService.upgradeCard(doneCard)).rejects.toThrow(
 				'Card is already in the highest category',
 			);
-			expect(cardRepositoryMock.save).not.toHaveBeenCalled();
+			expect(cardRepositoryMock.update).not.toHaveBeenCalled();
 		});
 	});
 
@@ -262,7 +263,7 @@ describe('CardServiceImpl', () => {
 				await cardService.downgradeCard(card);
 
 				// Assert
-				expect(cardRepositoryMock.save).toHaveBeenCalledWith(
+				expect(cardRepositoryMock.update).toHaveBeenCalledWith(
 					expect.objectContaining({ category: Category.FIRST }),
 				);
 

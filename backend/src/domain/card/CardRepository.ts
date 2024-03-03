@@ -7,7 +7,9 @@ export interface CardRepository {
 
 	loadAllCardsByTags(tags: string[]): Promise<Card[]>;
 
-	questionExists(question: string): Promise<boolean>;
+	cardWithSameQuestionAndTagExist(question: Card): Promise<boolean>;
 
 	save(card: Card): Promise<void>;
+
+	update(card: Card): Promise<void>;
 }
