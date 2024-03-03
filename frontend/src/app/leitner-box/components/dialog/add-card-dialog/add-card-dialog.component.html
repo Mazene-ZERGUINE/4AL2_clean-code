@@ -5,6 +5,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Enter your Tag</mat-label>
       <input
+        id="tag_input"
         matInput
         placeholder="Ex: TeamWork"
         [formControl]="addCardForm.controls.tag"
@@ -24,6 +25,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Enter your question</mat-label>
       <input
+        id="question_input"
         matInput
         placeholder="Ex: what is the diffrence .."
         [formControl]="addCardForm.controls.question"
@@ -36,6 +38,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Enter your answer</mat-label>
       <input
+        id="answer_input"
         matInput
         placeholder="Ex: the diffrence is.."
         [formControl]="addCardForm.controls.answer"
@@ -45,7 +48,12 @@
   </p>
 
   <div class="action-buttons">
-    <button mat-button class="bg-light-black text-white" (click)="onSubmitForm()">
+    <button
+      id="add_new_card_btn"
+      mat-button
+      class="bg-light-black text-white"
+      (click)="onSubmitForm()"
+    >
       <span>add new card</span>
       <mat-icon>add</mat-icon>
     </button>

@@ -5,7 +5,12 @@
       <h3 *ngIf="dailyCards.length > 0">Today {{ dailyCards.length }} cards to study.</h3>
       <h3 *ngIf="dailyCards.length === 0">No cards to study for Today</h3>
 
-      <button mat-button class="bg-light-black text-white mb-4 w-25" (click)="handleClickAddList()">
+      <button
+        id="add_list_btn"
+        mat-button
+        class="bg-light-black text-white mb-4 w-25"
+        (click)="handleClickAddList()"
+      >
         <span>add new list</span>
         <mat-icon>add</mat-icon>
       </button>
