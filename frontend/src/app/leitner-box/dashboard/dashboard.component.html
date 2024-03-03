@@ -1,7 +1,7 @@
 <ng-container *ngIf="dailyCards$ | async; let dailyCards">
   <div class="m-2 dashboard d-flex flex-column">
     <h1>Hi Friend ! Are you ready to study ?</h1>
-    <ng-container *ngIf="(gettingListStatus$ | async) === laodCardStatus.Success; else loading">
+    <ng-container *ngIf="(getListStatus$ | async) === laodCardStatus.Success; else loading">
       <h3 *ngIf="dailyCards.length > 0">Today {{ dailyCards.length }} cards to study.</h3>
       <h3 *ngIf="dailyCards.length === 0">No cards to study for Today</h3>
 

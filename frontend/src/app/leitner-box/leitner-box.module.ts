@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { CategoryComponent } from './category/category.component';
 import { AddCardDialogComponent } from './components/dialog/add-card-dialog/add-card-dialog.component';
 import { CardListByTagComponent } from './components/card-list-by-tag/card-list-by-tag.component';
 import { CardListItemComponent } from './components/card-list-item/card-list-item.component';
@@ -21,7 +20,6 @@ import { QuizzStepperDialogComponent } from './components/dialog/quizz-stepper-d
     CardListComponent,
     DashboardComponent,
     CardListItemComponent,
-    CategoryComponent,
     CardListByTagComponent,
     ShowAllCardsDialogComponent,
     AddCardDialogComponent,

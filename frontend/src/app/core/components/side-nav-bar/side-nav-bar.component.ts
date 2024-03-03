@@ -14,24 +14,14 @@ export class SideNavBarComponent {
       route: 'leitner-box/dashboard',
     },
     {
-      icon: 'category',
-      label: 'Category',
-      route: 'leitner-box/category',
-    },
-    {
-      icon: 'person',
-      label: 'Account',
-      route: 'leitner-box/account',
-    },
-    {
       icon: 'notifications',
       label: 'Reminder',
       route: 'leitner-box/reminder',
     },
     {
-      icon: 'security',
-      label: 'Security',
-      route: 'leitner-box/security',
+      icon: 'person',
+      label: 'Account',
+      route: 'leitner-box/account',
     },
   ];
 }
