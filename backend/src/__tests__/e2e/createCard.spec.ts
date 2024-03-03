@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-test.use({ headless: false });
-
 test('test creation of new card', async ({ page }) => {
 	await page.goto('http://localhost:4200/leitner-box/dashboard');
 
