@@ -2,7 +2,47 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.2.
 
+# Project Architecture
+
+`.
+├── app
+│   ├── common
+│   │   ├── scss
+│   │   │   └── variables
+│   │   ├── services
+│   │   │   └── navigation
+│   │   └── variables
+│   ├── core
+│   │   ├── components
+│   │   │   └── side-nav-bar
+│   │   └── models
+│   │       └── types
+│   ├── leitner-box
+│   │   ├── components
+│   │   │   ├── card-list
+│   │   │   ├── card-list-by-tag
+│   │   │   ├── card-list-item
+│   │   │   └── dialog
+│   │   │       ├── add-card-dialog
+│   │   │       ├── quizz-stepper-dialog
+│   │   │       └── show-all-cards-dialog
+│   │   ├── dashboard
+│   │   └── services
+│   ├── shared
+│   │   ├── services
+│   │   │   └── utils
+│   │   └── variables
+│   ├── state
+│   │   └── leitner-box
+│   └── utils
+│       ├── __test__
+│       └── card-adapter
+├── assets
+└── environment`
+
 ## Development server
+
+Run `npm i`
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
