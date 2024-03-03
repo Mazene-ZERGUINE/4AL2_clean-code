@@ -12,6 +12,10 @@
         
  }
 
+ ::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none;
+ }
+
  ::ng-deep .mat-stepper-horizontal-line {
      margin: 0;
      width: 30%;

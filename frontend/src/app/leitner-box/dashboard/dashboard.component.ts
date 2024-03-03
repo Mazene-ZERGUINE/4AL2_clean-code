@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   readonly laodCardStatus = LoadCardsStatus;
 
-  readonly gettingListStatus$ = this.state.select(selectStatus);
+  readonly getListStatus$ = this.state.select(selectStatus);
 
   readonly allCards$: Observable<Card[]> = this.state.select(selectAllCards);
 
