@@ -4,7 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # Project Architecture
 
-````.
+```
+.
 ├── app
 │   ├── common
 │   │   ├── scss
@@ -38,7 +39,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 │       ├── __test__
 │       └── card-adapter
 ├── assets
-└── environment```
+└── environment
+```
 
 ## Development server
 
