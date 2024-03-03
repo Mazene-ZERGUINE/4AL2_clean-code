@@ -5,41 +5,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # Project Architecture
 
 ```
-.
-├── app
-│   ├── common
-│   │   ├── scss
-│   │   │   └── variables
-│   │   ├── services
-│   │   │   └── navigation
-│   │   └── variables
-│   ├── core
-│   │   ├── components
-│   │   │   └── side-nav-bar
-│   │   └── models
-│   │       └── types
-│   ├── leitner-box
-│   │   ├── components
-│   │   │   ├── card-list
-│   │   │   ├── card-list-by-tag
-│   │   │   ├── card-list-item
-│   │   │   └── dialog
-│   │   │       ├── add-card-dialog
-│   │   │       ├── quizz-stepper-dialog
-│   │   │       └── show-all-cards-dialog
-│   │   ├── dashboard
-│   │   └── services
-│   ├── shared
-│   │   ├── services
-│   │   │   └── utils
-│   │   └── variables
-│   ├── state
-│   │   └── leitner-box
-│   └── utils
-│       ├── __test__
-│       └── card-adapter
-├── assets
-└── environment
+<img width="1068" alt="image" src="https://github.com/Mazene-ZERGUINE/4AL2_clean-code/assets/80518856/9799d370-4c0c-4408-8ef0-6a74738a302f">
+
 ```
 
 ## Development server
