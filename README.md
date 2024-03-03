@@ -59,7 +59,7 @@ npm run start
 [Structure du _front-end_](frontend/README.md#project-architecture)
 
 ### Schéma du back-end
-[Structure du _front-end_](backend/README.md#project-architecture)
+[Structure du _back-end_](backend/README.md#project-architecture)
 
 ### Domaine
 ![](docs/schemas/clean_code-domain.png)
