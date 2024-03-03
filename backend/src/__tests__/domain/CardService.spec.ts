@@ -5,7 +5,7 @@ import fn = jest.fn;
 
 import { CardService } from '../../domain/card/CardService';
 import { CardRepository } from '../../domain/card/CardRepository';
-import { CardServiceImpl } from '../../infrastructure/in-memory/cards/CardServiceImpl';
+import { CardServiceImpl } from '../../infrastructure/services/CardServiceImpl';
 import { CreateCardRequest } from '../../presentation/cards/response-request/CreateCard/CreateCardRequest';
 import { CardUserData } from '../../presentation/cards/response-request/CreateCard/CardUserData';
 import { Card } from '../../domain/card/entities/Card';

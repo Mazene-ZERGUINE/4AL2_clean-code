@@ -8,7 +8,7 @@ import { CardService } from './domain/card/CardService';
 import { CardRepository } from './domain/card/CardRepository';
 import { CardController } from './presentation/cards/Card.controller';
 import { CardRouter } from './presentation/cards/card.router';
-import { CardServiceImpl } from './infrastructure/in-memory/cards/CardServiceImpl';
+import { CardServiceImpl } from './infrastructure/services/CardServiceImpl';
 import { RouterConfiguration } from './presentation/RouterConfiguration';
 
 dotenv.config();
